@@ -58,39 +58,39 @@ I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and 
 ![Original](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/half.png)
 
 Original
-<br><br>
+<br><br><br>
 ![Floyd-Steinberg](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_FS.png)
 
 Floyd-Steinberg
-<br><br>
+<br><br><br>
 ![Jarvis-Judice-Ninke](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_JJN.png)
 
 Jarvis-Judice-Ninke
-<br><br>
+<br><br><br>
 ![Stucki](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_STU.png)
 
 Stucki
-<br><br>
+<br><br><br>
 ![Atkinson](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_ATK.png)
 
 Atkinson
-<br><br>
+<br><br><br>
 ![Burkes](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_BUR.png)
 
 Burkes
-<br><br>
+<br><br><br>
 ![Sierra](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_SIE.png)
 
 Sierra
-<br><br>
+<br><br><br>
 ![Sierra Two Row](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_SIE2R.png)
 
 Sierra Two Row
-<br><br>
+<br><br><br>
 ![Sierra Lite](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_SIEL.png)
 
 Sierra Lite
-<br><br>
+<br><br><br>
 ![None](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/dither_NONE.png)
 
 No dithering, just color reduction
