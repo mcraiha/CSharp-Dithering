@@ -53,7 +53,7 @@ Text in this document and source code files are released into the public domain.
 Parrot image (half.png) is made from image that comes from [Kodak Lossless True Color Image Suite](http://r0k.us/graphics/kodak/) and it doesn't have any specific license.
 
 ## Samples
-I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and reduced its size. Then I ran the image with all dithering methods and using [Web safe colors](https://en.wikipedia.org/wiki/Web_colors#Web-safe_colors) as palette.
+I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and reduced its size. Then I ran the image (which has 64655 different colors) with all dithering methods and using [Web safe colors](https://en.wikipedia.org/wiki/Web_colors#Web-safe_colors) as palette. 
 
 ![Original](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/half.png)
 
