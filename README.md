@@ -1,8 +1,8 @@
 # CSharp-Dithering
-CSharp (C#) versions of certain dithering algorithms
+CSharp (C#) versions of certain dithering algorithms. This project is .NET Standard 2.0 compatible and available as Nuget!
 
 ## Introduction to this project
-This project contains implementations of different dithering algorithms (C#). They use .NET Bitmap class so **System.Drawing** is required (albeit it could be easily replaced). As usual most of the error handling code has been stripped away, so YMMV
+This project contains implementations of different dithering algorithms (C#). They can be used with any graphics/image API.
 
 ## Introduction to dithering
 As Wikipedia says *"Dither is an intentionally applied form of noise used to randomize quantization error, preventing large-scale patterns such as color banding in images."*
@@ -12,40 +12,80 @@ In this case dithering is used help in color reduction (less banding). This redu
 ## Implementation
 Inspiration for this project came from [blog post](http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/) made by **Tanner Helland**.
 
-[Program.cs](https://github.com/mcraiha/CSharp-Dithering/blob/master/Program.cs) is a sample program that can be used for testing different dithering methods.
+[DitheringBase.cs](https://github.com/mcraiha/CSharp-Dithering/blob/master/src/DitheringBase.cs) contains the abstract base class that every error pushing dithering implmentation should use.
 
-[DitheringBase.cs](https://github.com/mcraiha/CSharp-Dithering/blob/master/DitheringBase.cs) contains the abstract base class that every error pushing dithering implmentation should use.
-
-[FakeDithering.cs](https://github.com/mcraiha/CSharp-Dithering/blob/master/FakeDithering.cs) is "fake" dithering since it doesn't do any dithering. It is used to get image with reduced colors.
+[FakeDithering.cs](https://github.com/mcraiha/CSharp-Dithering/blob/master/src/FakeDithering.cs) is "fake" dithering since it doesn't do any dithering. It is used to get image with reduced colors.
 
 Other .cs files are used for different dithering algorithms, and the files are named as **SomeAlgorithm**Dithering.cs
 
-Samples folder contains images that are shown in the end of this Readme file
+[Samples folder](https://github.com/mcraiha/CSharp-Dithering/blob/master/samples) contains images that are shown in the end of this Readme file
 
 ## Examples
-Use Floyd-Steinberg dithering with black or white color reduction
+Use Atkinson dithering with web safe color reduction for 24 bit PNG input with System.Drawing
 ```cs
-private static Color BlackOrWhite(Color inputColor)
+public void DoAtkinsonDithering()
 {
-    int luminanceHSL = (Math.Max(inputColor.R, Math.Max(inputColor.G, inputColor.B)) + Math.Min(inputColor.R, Math.Min(inputColor.G, inputColor.B))) / 2;
-    if (luminanceHSL < 128)
-    {
-        return Color.Black;
-    }
+    AtkinsonDitheringRGBByte atkinson = new AtkinsonDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-    return Color.White;
+    using(FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read))
+    using(var image = new Bitmap(pngStream))
+    {
+        byte[,,] bytes = ReadBitmapToColorBytes(image);
+
+        TempByteImageFormat temp = new TempByteImageFormat(bytes);
+        temp = (TempByteImageFormat)atkinson.DoDithering(temp);
+
+        WriteToBitmap(image, temp.GetPixelChannels);
+
+        image.Save("test.png");
+    }
 }
 
-DitheringBase method = new FloydSteinbergDithering(BlackOrWhite, useFastMode: true);
-Bitmap dithered = method.DoDithering(input);
+private static object[] TrueColorBytesToWebSafeColorBytes(object[] input)
+{
+    object[] returnArray = new object[input.Length];
+    for (int i = 0; i < returnArray.Length; i++)
+    {
+        returnArray[i] = (byte)(Math.Round((byte)input[i] / 51.0) * 51);
+    }
+    
+    return returnArray;
+}
+
+private static byte[,,] ReadBitmapToColorBytes(Bitmap bitmap)
+{
+    byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
+    for (int x = 0; x < bitmap.Width; x++)
+    {
+        for (int y = 0; y < bitmap.Height; y++)
+        {
+            Color color = bitmap.GetPixel(x, y);
+            returnValue[x, y, 0] = color.R;
+            returnValue[x, y, 1] = color.G;
+            returnValue[x, y, 2] = color.B;
+        }
+    }
+    return returnValue;
+}
+
+private static void WriteToBitmap(Bitmap bitmap, Func<int, int, object[]> reader)
+{
+    for (int x = 0; x < bitmap.Width; x++)
+    {
+        for (int y = 0; y < bitmap.Height; y++)
+        {
+            object[] read = reader(x, y);
+            Color color = Color.FromArgb((byte)read[0], (byte)read[1], (byte)read[2]);
+            bitmap.SetPixel(x, y, color);
+        }
+    }
+}
 ```
 ## Usage
 You have to always give color reduction method as parameter for dither constructor. You can dither multiple images with one instance by calling DoDithering again with different input.
 
-## What is useFastMode
-Since [Bitmap Class](https://msdn.microsoft.com/en-us/library/system.drawing.bitmap(v=vs.110).aspx) in .NET has very slow SetPixel method, it is much faster to use LockBits and InteropServices.Marshal.Copy. Unfortunately in certain situations those might be unusable so that is why GetPixel method is the backup method.
-
-So it is better (perfomance wise) to call constructors with **useFastMode: true** if possible.
+## Wasn't this .NET Framework project?
+Yes, but time moves on...
 
 ## License
 Text in this document and source code files are released into the public domain. See [PUBLICDOMAIN](https://github.com/mcraiha/CSharp-Dithering/blob/master/PUBLICDOMAIN) file.
