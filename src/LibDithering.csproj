@@ -6,7 +6,7 @@
     <VersionPrefix>0.9.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Kaarlo Räihä</Authors>
-    <Description>.Net Standard compatible dithering library implementation in C#</Description>
+    <Description>.Net Standard compatible managed dithering library implementation in C#</Description>
     <IncludeSource>true</IncludeSource>
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-Dithering</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-Dithering.git</RepositoryUrl>
