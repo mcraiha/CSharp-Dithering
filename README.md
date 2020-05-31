@@ -1,5 +1,5 @@
 # CSharp-Dithering
-CSharp (C#) versions of certain dithering algorithms. This project is .NET Standard 2.0 compatible and available as Nuget!
+CSharp (C#) versions of certain dithering algorithms. This project is .NET Standard 2.0 compatible, managed and available as Nuget!
 
 ## Introduction to this project
 This project contains implementations of different dithering algorithms (C#). They can be used with any graphics/image API.
@@ -93,7 +93,7 @@ Text in this document and source code files are released into the public domain.
 Parrot image (half.png) is made from image that comes from [Kodak Lossless True Color Image Suite](http://r0k.us/graphics/kodak/) and it doesn't have any specific license.
 
 ## Samples
-I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and reduced its size. Then I ran the image (which has 64655 different colors) with all dithering methods and using [Web safe colors](https://en.wikipedia.org/wiki/Web_colors#Web-safe_colors) as palette. 
+I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and reduced its size. Then I ran the image (which has 64655 different colors) with all dithering methods and using [Web safe colors](https://en.wikipedia.org/wiki/Web_colors#Web-safe_colors) as palette (216 colors). 
 
 ![Original](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/half.png)
 
