@@ -5,9 +5,12 @@
 */
 using System;
 
-class FakeDithering : DitheringBase
+/// <summary>
+/// Fake dithering doesn't do anything
+/// </summary>
+public class FakeDitheringRGBByte : DitheringBase
 {
-	public FakeDithering(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public FakeDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "No dithering";
 		this.fileNameAddition = "_NONE";

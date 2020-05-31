@@ -6,9 +6,9 @@
 
 using System;
 
-class StuckiDithering : DitheringBase
+public class StuckiDitheringRGBByte : DitheringBase
 {
-	public StuckiDithering(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public StuckiDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Stucki";
 		this.fileNameAddition = "_STU";

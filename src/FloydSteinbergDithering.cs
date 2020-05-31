@@ -5,9 +5,9 @@
 */
 using System;
 
-public class FloydSteinbergDithering : DitheringBase
+public class FloydSteinbergDitheringRGBByte : DitheringBase
 {
-	public FloydSteinbergDithering(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public FloydSteinbergDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
     {
         this.methodLongName = "Floyd-Steinberg";
         this.fileNameAddition = "_FS";

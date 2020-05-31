@@ -5,9 +5,9 @@
 */
 using System;
 
-class SierraTwoRowDithering : DitheringBase
+public class SierraTwoRowDitheringRGBByte : DitheringBase
 {
-	public SierraTwoRowDithering(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public SierraTwoRowDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "SierraTwoRow";
 		this.fileNameAddition = "_SIE2R";

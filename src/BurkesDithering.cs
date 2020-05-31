@@ -5,7 +5,7 @@
 */
 using System;
 
-class BurkesDitheringRGBByte : DitheringBase
+public class BurkesDitheringRGBByte : DitheringBase
 {
 	public BurkesDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{

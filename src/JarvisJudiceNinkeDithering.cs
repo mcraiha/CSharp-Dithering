@@ -5,9 +5,9 @@
 */
 using System;
 
-public class JarvisJudiceNinkeDithering : DitheringBase
+public class JarvisJudiceNinkeDitheringRGBByte : DitheringBase
 {
-	public JarvisJudiceNinkeDithering(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public JarvisJudiceNinkeDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Jarvis-Judice-Ninke";
 		this.fileNameAddition = "_JJN";
