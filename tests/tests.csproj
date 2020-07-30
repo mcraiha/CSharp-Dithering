@@ -17,4 +17,10 @@
     <ProjectReference Include="..\src\LibDithering.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="half.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
