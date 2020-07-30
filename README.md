@@ -5,7 +5,7 @@ CSharp (C#) versions of certain dithering algorithms. This project is .NET Stand
 ![](https://github.com/mcraiha/CSharp-Dithering/workflows/.NET%20Core/badge.svg)
 
 ## Nuget
-![https://img.shields.io/badge/Nuget-CSharpDithering-blue](https://www.nuget.org/packages/LibDithering/)
+[![Creative Commons License](https://img.shields.io/badge/Nuget-CSharpDithering-blue)](https://www.nuget.org/packages/LibDithering/)
 
 ## Introduction to this project
 This project contains implementations of different dithering algorithms (C#). They can be used with any graphics/image API.
