@@ -129,15 +129,15 @@ public class TempDoubleImageFormat : IImageFormat
 		return returnValue;
 	}
 
-	private static byte GetLimitedValue(byte original, double error)
+	private static double GetLimitedValue(byte original, double error)
 	{
 		double newValue = original + error;
 		return Clamp(newValue, 0.0, 1.0);
 	}
 
 	// C# doesn't have a Clamp method so we need this
-	private static byte Clamp(double value, double min, double max)
+	private static double Clamp(double value, double min, double max)
 	{
-		return (value < min) ? (byte)min : (value > max) ? (byte)max : (byte)value;
+		return (value < min) ? 0.0 : (value > max) ? 1.0 : value;
 	}
 }
