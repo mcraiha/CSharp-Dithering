@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-Dithering</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-Dithering.git</RepositoryUrl>
     <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
