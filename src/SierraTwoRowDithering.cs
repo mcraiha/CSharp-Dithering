@@ -5,14 +5,27 @@
 */
 using System;
 
+/// <summary>
+/// Sierra two row dithering for RGB bytes
+/// </summary>
 public class SierraTwoRowDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Sierra two row dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public SierraTwoRowDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "SierraTwoRow";
 		this.fileNameAddition = "_SIE2R";
 	}
 
+	/// <summary>
+	/// Push error method for Sierra two row dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error

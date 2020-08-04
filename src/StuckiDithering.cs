@@ -6,14 +6,27 @@
 
 using System;
 
+/// <summary>
+/// Stucki dithering for RGB bytes
+/// </summary>
 public class StuckiDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Stucki dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public StuckiDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Stucki";
 		this.fileNameAddition = "_STU";
 	}
 
+	/// <summary>
+	/// Push error method for Stucki dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error

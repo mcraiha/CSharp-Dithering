@@ -5,14 +5,27 @@
 */
 using System;
 
+/// <summary>
+/// Jarvis-Judice-Ninke dithering for RGB bytes
+/// </summary>
 public class JarvisJudiceNinkeDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Jarvis-Judice-Ninke dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public JarvisJudiceNinkeDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Jarvis-Judice-Ninke";
 		this.fileNameAddition = "_JJN";
 	}
 
+	/// <summary>
+	/// Push error method for Jarvis-Judice-Ninke dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error

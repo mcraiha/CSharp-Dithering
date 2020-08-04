@@ -5,14 +5,27 @@
 */
 using System;
 
+/// <summary>
+/// Burkes dithering for RGB bytes
+/// </summary>
 public class BurkesDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Burkes dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public BurkesDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Burkes";
 		this.fileNameAddition = "_BUR";
 	}
 
+	/// <summary>
+	/// Push error method for Burkes dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error

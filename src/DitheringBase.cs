@@ -6,24 +6,55 @@
 
 using System;
 
+/// <summary>
+/// Abstract base class for dithering implementations
+/// </summary>
 public abstract class DitheringBase
 {
+	/// <summary>
+	/// Width of bitmap
+	/// </summary>
 	protected int width;
+
+	/// <summary>
+	/// Height of bitmap
+	/// </summary>
 	protected int height;
 
+	/// <summary>
+	/// Long name of the dither method
+	/// </summary>
 	protected string methodLongName = "";
+
+	/// <summary>
+	/// Filename addition
+	/// </summary>
 	protected string fileNameAddition = "";
 
+	/// <summary>
+	/// Color reduction function/method
+	/// </summary>
 	protected Func<object[],object[]> colorFunction = null;
 
+	/// <summary>
+	/// Current bitmap
+	/// </summary>
 	private IImageFormat currentBitmap;
 
+	/// <summary>
+	/// Base constructor
+	/// </summary>
+	/// <param name="colorfunc">Color reduction function/method</param>
 	public DitheringBase(Func<object[],object[]> colorfunc)
 	{
 		this.colorFunction = colorfunc;
 	}
 
-	// Work horse, call this when you want to dither something
+	/// <summary>
+	/// Do dithering for chosen image with chosen color reduction method. Work horse, call this when you want to dither something
+	/// </summary>
+	/// <param name="input">Input image</param>
+	/// <returns>Dithered image</returns>
 	public IImageFormat DoDithering(IImageFormat input)
 	{
 		this.width = input.GetWidth();
@@ -52,24 +83,50 @@ public abstract class DitheringBase
 		return input;
 	}
 
+	/// <summary>
+	/// Get dither method name
+	/// </summary>
+	/// <returns>String method name</returns>
 	public string GetMethodName()
 	{
 		return this.methodLongName;
 	}
 
+	/// <summary>
+	/// Get filename addition
+	/// </summary>
+	/// <returns></returns>
 	public string GetFilenameAddition()
 	{
 		return this.fileNameAddition;
 	}
 
+	/// <summary>
+	/// Check if image coordinate is valid
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <returns>True if valid; False otherwise</returns>
 	protected bool IsValidCoordinate(int x, int y)
 	{
 		return (0 <= x && x < this.width && 0 <= y && y < this.height);
 	}
 
-	// Implement this for every dithering method
+	/// <summary>
+	/// How error cumulation should be handled. Implement this for every dithering method
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	protected abstract void PushError(int x, int y, double[] quantError);
 
+	/// <summary>
+	/// Modify image with error and multiplier
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
+	/// <param name="multiplier">Multiplier</param>
 	public void ModifyImageWithErrorAndMultiplier(int x, int y, double[] quantError, double multiplier)
 	{
 		object[] oldColor = this.currentBitmap.GetPixelChannels(x, y);

@@ -6,14 +6,27 @@
 
 using System;
 
+/// <summary>
+/// Sierra dithering for RGB bytes
+/// </summary>
 public class SierraDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Sierra dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public SierraDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Sierra";
 		this.fileNameAddition = "_SIE";
 	}
 
+	/// <summary>
+	/// Push error method for Sierra dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error

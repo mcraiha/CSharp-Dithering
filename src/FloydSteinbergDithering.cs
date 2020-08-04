@@ -5,14 +5,27 @@
 */
 using System;
 
+/// <summary>
+/// Floyd-Steinberg dithering for RGB bytes
+/// </summary>
 public class FloydSteinbergDitheringRGBByte : DitheringBase
 {
+	/// <summary>
+	/// Constructor for Floyd-Steinberg dithering
+	/// </summary>
+	/// <param name="colorfunc">Color function</param>
 	public FloydSteinbergDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
     {
         this.methodLongName = "Floyd-Steinberg";
         this.fileNameAddition = "_FS";
     }
 
+	/// <summary>
+	/// Push error method for Floyd-Steinberg dithering
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
 		// Push error
