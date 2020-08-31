@@ -9,13 +9,13 @@ using System;
 /// <summary>
 /// Sierra dithering for RGB bytes
 /// </summary>
-public class SierraDitheringRGBByte : DitheringBase
+public class SierraDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Sierra dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public SierraDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Sierra";
 		this.fileNameAddition = "_SIE";

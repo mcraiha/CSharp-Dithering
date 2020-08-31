@@ -9,7 +9,7 @@ using System;
 /// <summary>
 /// Abstract base class for dithering implementations
 /// </summary>
-public abstract class DitheringBase
+public abstract class DitheringBase<T>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -34,18 +34,18 @@ public abstract class DitheringBase
 	/// <summary>
 	/// Color reduction function/method
 	/// </summary>
-	protected Func<object[],object[]> colorFunction = null;
+	protected Func<T[],T[]> colorFunction = null;
 
 	/// <summary>
 	/// Current bitmap
 	/// </summary>
-	private IImageFormat currentBitmap;
+	private IImageFormat<T> currentBitmap;
 
 	/// <summary>
 	/// Base constructor
 	/// </summary>
 	/// <param name="colorfunc">Color reduction function/method</param>
-	public DitheringBase(Func<object[],object[]> colorfunc)
+	public DitheringBase(Func<T[],T[]> colorfunc)
 	{
 		this.colorFunction = colorfunc;
 	}
@@ -55,14 +55,14 @@ public abstract class DitheringBase
 	/// </summary>
 	/// <param name="input">Input image</param>
 	/// <returns>Dithered image</returns>
-	public IImageFormat DoDithering(IImageFormat input)
+	public IImageFormat<T> DoDithering(IImageFormat<T> input)
 	{
 		this.width = input.GetWidth();
 		this.height = input.GetHeight();
 		this.currentBitmap = input;
 
-		object[] originalPixel = null; // Default value isn't used
-		object[] newPixel = null; // Default value isn't used
+		T[] originalPixel = null; // Default value isn't used
+		T[] newPixel = null; // Default value isn't used
 		double[] quantError = null; // Default values aren't used
 
 		for (int y = 0; y < this.height; y++)
@@ -129,10 +129,10 @@ public abstract class DitheringBase
 	/// <param name="multiplier">Multiplier</param>
 	public void ModifyImageWithErrorAndMultiplier(int x, int y, double[] quantError, double multiplier)
 	{
-		object[] oldColor = this.currentBitmap.GetPixelChannels(x, y);
+		T[] oldColor = this.currentBitmap.GetPixelChannels(x, y);
 
 		// We limit the color here because we don't want the value go over min or max
-		object[] newColor = this.currentBitmap.CreatePixelFromChannelsAndQuantError(oldColor, quantError, multiplier);
+		T[] newColor = this.currentBitmap.CreatePixelFromChannelsAndQuantError(oldColor, quantError, multiplier);
 
 		this.currentBitmap.SetPixelChannels(x, y, newColor);
 	}

@@ -3,7 +3,7 @@ using System;
 /// <summary>
 /// Temp double based image format. 0.0 is zero color, 1.0 is max color
 /// </summary>
-public class TempDoubleImageFormat : IImageFormat
+public class TempDoubleImageFormat : IImageFormat<double>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -66,8 +66,8 @@ public class TempDoubleImageFormat : IImageFormat
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <param name="newValues">New values as object array</param>
-	public void SetPixelChannels(int x, int y, object[] newValues)
+	/// <param name="newValues">New values as double array</param>
+	public void SetPixelChannels(int x, int y, double[] newValues)
 	{
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
@@ -80,10 +80,10 @@ public class TempDoubleImageFormat : IImageFormat
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <returns>Values as object array</returns>
-	public object[] GetPixelChannels(int x, int y)
+	/// <returns>Values as double array</returns>
+	public double[] GetPixelChannels(int x, int y)
 	{
-		object[] returnArray = new object[this.channelsPerPixel];
+		double[] returnArray = new double[this.channelsPerPixel];
 
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
@@ -98,8 +98,8 @@ public class TempDoubleImageFormat : IImageFormat
 	/// </summary>
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
-	/// <returns>Error values as object array</returns>
-	public double[] GetQuantErrorsPerChannel(object[] originalPixel, object[] newPixel)
+	/// <returns>Error values as double array</returns>
+	public double[] GetQuantErrorsPerChannel(double[] originalPixel, double[] newPixel)
 	{
 		double[] returnValue = new double[this.channelsPerPixel];
 
@@ -118,9 +118,9 @@ public class TempDoubleImageFormat : IImageFormat
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
 	/// <returns>New values</returns>
-	public object[] CreatePixelFromChannelsAndQuantError(object[] oldValues, double[] quantErrors, double multiplier)
+	public double[] CreatePixelFromChannelsAndQuantError(double[] oldValues, double[] quantErrors, double multiplier)
 	{
-		object[] returnValue = new object[oldValues.Length];
+		double[] returnValue = new double[oldValues.Length];
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
 			returnValue[i] = GetLimitedValue((byte)oldValues[i], quantErrors[i] * multiplier);

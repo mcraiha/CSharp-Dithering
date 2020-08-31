@@ -2,7 +2,7 @@
 /// <summary>
 /// Interface for our custom image formats
 /// </summary>
-public interface IImageFormat
+public interface IImageFormat<T>
 {
 	/// <summary>
 	/// Get width
@@ -21,24 +21,24 @@ public interface IImageFormat
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <param name="newValues">New values as object array</param>
-	void SetPixelChannels(int x, int y, object[] newValues);
+	/// <param name="newValues">New values</param>
+	void SetPixelChannels(int x, int y, T[] newValues);
 
 	/// <summary>
 	/// Get pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <returns>Values as object array</returns>
-	object[] GetPixelChannels(int x, int y);
+	/// <returns>Values as array</returns>
+	T[] GetPixelChannels(int x, int y);
 
 	/// <summary>
 	/// Get quantization errors per channel
 	/// </summary>
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
-	/// <returns>Error values as object array</returns>
-	double[] GetQuantErrorsPerChannel(object[] originalPixel, object[] newPixel);
+	/// <returns>Error values as double array</returns>
+	double[] GetQuantErrorsPerChannel(T[] originalPixel, T[] newPixel);
 
 	/// <summary>
 	/// Create new values from old values and quantization errors
@@ -47,5 +47,5 @@ public interface IImageFormat
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
 	/// <returns>New values</returns>
-	object[] CreatePixelFromChannelsAndQuantError(object[] oldValues, double[] quantErrors, double multiplier);
+	T[] CreatePixelFromChannelsAndQuantError(T[] oldValues, double[] quantErrors, double multiplier);
 }

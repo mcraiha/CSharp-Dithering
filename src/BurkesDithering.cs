@@ -8,13 +8,13 @@ using System;
 /// <summary>
 /// Burkes dithering for RGB bytes
 /// </summary>
-public class BurkesDitheringRGBByte : DitheringBase
+public class BurkesDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Burkes dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public BurkesDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public BurkesDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Burkes";
 		this.fileNameAddition = "_BUR";

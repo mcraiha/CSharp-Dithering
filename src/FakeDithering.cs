@@ -8,14 +8,14 @@ using System;
 /// <summary>
 /// Fake dithering doesn't do any dithering. It only does color reduction
 /// </summary>
-public class FakeDitheringRGBByte : DitheringBase
+public class FakeDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for fake dithering (no dither, just color reduction)
 	/// </summary>
 	/// <param name="colorfunc"></param>
 	/// <returns></returns>
-	public FakeDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public FakeDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "No dithering";
 		this.fileNameAddition = "_NONE";

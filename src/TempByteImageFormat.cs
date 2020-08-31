@@ -3,7 +3,7 @@ using System;
 /// <summary>
 /// Temp byte based image format. 0 is zero color, 255 is max color
 /// </summary>
-public class TempByteImageFormat : IImageFormat
+public class TempByteImageFormat : IImageFormat<byte>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -99,20 +99,20 @@ public class TempByteImageFormat : IImageFormat
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
 	/// <param name="newValues">New values as object array</param>
-	public void SetPixelChannels(int x, int y, object[] newValues)
+	public void SetPixelChannels(int x, int y, byte[] newValues)
 	{
 		if (this.content1d != null)
 		{
 			for (int i = 0; i < this.channelsPerPixel; i++)
 			{
-				this.content1d[y * width + x + i] = (byte)newValues[i];
+				this.content1d[y * width + x + i] = newValues[i];
 			}
 		}
 		else
 		{
 			for (int i = 0; i < this.channelsPerPixel; i++)
 			{
-				this.content3d[x, y, i] = (byte)newValues[i];
+				this.content3d[x, y, i] = newValues[i];
 			}
 		}
 	}
@@ -122,10 +122,10 @@ public class TempByteImageFormat : IImageFormat
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <returns>Values as object array</returns>
-	public object[] GetPixelChannels(int x, int y)
+	/// <returns>Values as byte array</returns>
+	public byte[] GetPixelChannels(int x, int y)
 	{
-		object[] returnArray = new object[this.channelsPerPixel];
+		byte[] returnArray = new byte[this.channelsPerPixel];
 
 		if (this.content1d != null)
 		{
@@ -151,13 +151,13 @@ public class TempByteImageFormat : IImageFormat
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
 	/// <returns>Error values as object array</returns>
-	public double[] GetQuantErrorsPerChannel(object[] originalPixel, object[] newPixel)
+	public double[] GetQuantErrorsPerChannel(byte[] originalPixel, byte[] newPixel)
 	{
 		double[] returnValue = new double[this.channelsPerPixel];
 
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			returnValue[i] = (byte)originalPixel[i] - (byte)newPixel[i];
+			returnValue[i] = originalPixel[i] - newPixel[i];
 		}
 
 		return returnValue;
@@ -170,9 +170,9 @@ public class TempByteImageFormat : IImageFormat
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
 	/// <returns>New values</returns>
-	public object[] CreatePixelFromChannelsAndQuantError(object[] oldValues, double[] quantErrors, double multiplier)
+	public byte[] CreatePixelFromChannelsAndQuantError(byte[] oldValues, double[] quantErrors, double multiplier)
 	{
-		object[] returnValue = new object[oldValues.Length];
+		byte[] returnValue = new byte[oldValues.Length];
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
 			returnValue[i] = GetLimitedValue((byte)oldValues[i], quantErrors[i] * multiplier);

@@ -8,13 +8,13 @@ using System;
 /// <summary>
 /// Atkinson dithering for RGB bytes
 /// </summary>
-public class AtkinsonDitheringRGBByte : DitheringBase
+public class AtkinsonDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Atkinson dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public AtkinsonDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public AtkinsonDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Atkinson";
 		this.fileNameAddition = "_ATK";

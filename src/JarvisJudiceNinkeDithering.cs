@@ -8,13 +8,13 @@ using System;
 /// <summary>
 /// Jarvis-Judice-Ninke dithering for RGB bytes
 /// </summary>
-public class JarvisJudiceNinkeDitheringRGBByte : DitheringBase
+public class JarvisJudiceNinkeDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Jarvis-Judice-Ninke dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public JarvisJudiceNinkeDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public JarvisJudiceNinkeDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Jarvis-Judice-Ninke";
 		this.fileNameAddition = "_JJN";

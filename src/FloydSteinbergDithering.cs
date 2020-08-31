@@ -8,13 +8,13 @@ using System;
 /// <summary>
 /// Floyd-Steinberg dithering for RGB bytes
 /// </summary>
-public class FloydSteinbergDitheringRGBByte : DitheringBase
+public class FloydSteinbergDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Floyd-Steinberg dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public FloydSteinbergDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public FloydSteinbergDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
     {
         this.methodLongName = "Floyd-Steinberg";
         this.fileNameAddition = "_FS";

@@ -8,13 +8,13 @@ using System;
 /// <summary>
 /// Sierra two row dithering for RGB bytes
 /// </summary>
-public class SierraTwoRowDitheringRGBByte : DitheringBase
+public class SierraTwoRowDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Sierra two row dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraTwoRowDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public SierraTwoRowDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "SierraTwoRow";
 		this.fileNameAddition = "_SIE2R";

@@ -9,13 +9,13 @@ using System;
 /// <summary>
 /// Stucki dithering for RGB bytes
 /// </summary>
-public class StuckiDitheringRGBByte : DitheringBase
+public class StuckiDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Stucki dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public StuckiDitheringRGBByte(Func<object[],object[]> colorfunc) : base(colorfunc)
+	public StuckiDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Stucki";
 		this.fileNameAddition = "_STU";
