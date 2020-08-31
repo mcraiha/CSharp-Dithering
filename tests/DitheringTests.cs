@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace tests
 {
-	public class Tests
+	public class DitheringTests
 	{
 		[SetUp]
 		public void Setup()
@@ -199,7 +199,7 @@ namespace tests
 		{
 			using(var image = bitmap)
 			{
-				byte[,,] bytes = ReadToBytes(image);
+				byte[,,] bytes = ReadTo3DBytes(image);
 
 				TempByteImageFormat temp = new TempByteImageFormat(bytes);
 				temp = (TempByteImageFormat)dithering.DoDithering(temp);
@@ -221,7 +221,7 @@ namespace tests
 			return returnArray;
 		}
 
-		private static byte[,,] ReadToBytes(Bitmap bitmap)
+		private static byte[,,] ReadTo3DBytes(Bitmap bitmap)
 		{
 			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
 			for (int x = 0; x < bitmap.Width; x++)
