@@ -39,7 +39,7 @@ public void DoAtkinsonDithering()
         byte[,,] bytes = ReadBitmapToColorBytes(image);
 
         TempByteImageFormat temp = new TempByteImageFormat(bytes);
-        temp = (TempByteImageFormat)atkinson.DoDithering(temp);
+        atkinson.DoDithering(temp);
 
         WriteToBitmap(image, temp.GetPixelChannels);
 
@@ -47,12 +47,12 @@ public void DoAtkinsonDithering()
     }
 }
 
-private static object[] TrueColorBytesToWebSafeColorBytes(object[] input)
+private static byte[] TrueColorBytesToWebSafeColorBytes(byte[] input)
 {
-    object[] returnArray = new object[input.Length];
+    byte[] returnArray = new byte[input.Length];
     for (int i = 0; i < returnArray.Length; i++)
     {
-        returnArray[i] = (byte)(Math.Round((byte)input[i] / 51.0) * 51);
+        returnArray[i] = (byte)(Math.Round(input[i] / 51.0) * 51);
     }
     
     return returnArray;
@@ -74,14 +74,14 @@ private static byte[,,] ReadBitmapToColorBytes(Bitmap bitmap)
     return returnValue;
 }
 
-private static void WriteToBitmap(Bitmap bitmap, Func<int, int, object[]> reader)
+private static void WriteToBitmap(Bitmap bitmap, Func<int, int, byte[]> reader)
 {
     for (int x = 0; x < bitmap.Width; x++)
     {
         for (int y = 0; y < bitmap.Height; y++)
         {
-            object[] read = reader(x, y);
-            Color color = Color.FromArgb((byte)read[0], (byte)read[1], (byte)read[2]);
+            byte[] read = reader(x, y);
+            Color color = Color.FromArgb(read[0], read[1], read[2]);
             bitmap.SetPixel(x, y, color);
         }
     }
