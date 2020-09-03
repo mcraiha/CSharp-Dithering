@@ -17,6 +17,12 @@ public interface IImageFormat<T>
 	int GetHeight();
 
 	/// <summary>
+	/// Get channels per pixel
+	/// </summary>
+	/// <returns>Channels per pixel</returns>
+	int GetChannelsPerPixel();
+
+	/// <summary>
 	/// Set pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>
@@ -31,6 +37,14 @@ public interface IImageFormat<T>
 	/// <param name="y">Y coordinate</param>
 	/// <returns>Values as array</returns>
 	T[] GetPixelChannels(int x, int y);
+
+	/// <summary>
+	/// Get pixel channels of certain coordinate
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="pixelStorage">Array where pixel channels values will be written</param>
+	void GetPixelChannels(int x, int y, ref T[] pixelStorage);
 
 	/// <summary>
 	/// Get quantization errors per channel

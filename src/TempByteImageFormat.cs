@@ -94,6 +94,15 @@ public class TempByteImageFormat : IImageFormat<byte>
 	}
 
 	/// <summary>
+	/// Get channels per pixel
+	/// </summary>
+	/// <returns>Channels per pixel</returns>
+	public int GetChannelsPerPixel()
+	{
+		return this.channelsPerPixel;
+	}
+
+	/// <summary>
 	/// Set pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>
@@ -143,6 +152,30 @@ public class TempByteImageFormat : IImageFormat<byte>
 		}
 
 		return returnArray;
+	}
+
+	/// <summary>
+	/// Get pixel channels of certain coordinate
+	/// </summary>
+	/// <param name="x">X coordinate</param>
+	/// <param name="y">Y coordinate</param>
+	/// <param name="pixelStorage">Array where pixel channels values will be written</param>
+	public void GetPixelChannels(int x, int y, ref byte[] pixelStorage)
+	{
+		if (this.content1d != null)
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				pixelStorage[i] = this.content1d[y * width + x + i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				pixelStorage[i] = this.content3d[x, y, i];
+			}
+		}
 	}
 
 	/// <summary>

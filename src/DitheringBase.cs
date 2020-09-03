@@ -61,7 +61,7 @@ public abstract class DitheringBase<T>
 		this.height = input.GetHeight();
 		this.currentBitmap = input;
 
-		T[] originalPixel = null; // Default value isn't used
+		T[] originalPixel = new T[input.GetChannelsPerPixel()];
 		T[] newPixel = null; // Default value isn't used
 		double[] quantError = null; // Default values aren't used
 
@@ -69,7 +69,7 @@ public abstract class DitheringBase<T>
 		{
 			for (int x = 0; x < this.width; x++)
 			{
-				originalPixel = input.GetPixelChannels(x, y);
+				input.GetPixelChannels(x, y, ref originalPixel);
 				newPixel = this.colorFunction(originalPixel);
 
 				input.SetPixelChannels(x, y, newPixel);
