@@ -135,6 +135,20 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
+	/// Get quantization errors per channel
+	/// </summary>
+	/// <param name="originalPixel">Original pixels</param>
+	/// <param name="newPixel">New pixels</param>
+	/// <param name="errorValues">Error values as double array</param>
+	public void GetQuantErrorsPerChannel(in double[] originalPixel, in double[] newPixel, ref double[] errorValues)
+	{
+		for (int i = 0; i < this.channelsPerPixel; i++)
+		{
+			errorValues[i] = originalPixel[i] - newPixel[i];
+		}
+	}
+
+	/// <summary>
 	/// Create new values from old values and quantization errors
 	/// </summary>
 	/// <param name="oldValues">Old values</param>
