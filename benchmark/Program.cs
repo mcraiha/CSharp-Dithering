@@ -24,15 +24,12 @@ namespace benchmark
 		[Benchmark]
 		public void threedee() => fake.DoDithering(threeD);
 
-		private static byte[] TrueColorBytesToWebSafeColorBytes(byte[] input)
+		private static void TrueColorBytesToWebSafeColorBytes(in byte[] input, ref byte[] output)
 		{
-			byte[] returnArray = new byte[input.Length];
-			for (int i = 0; i < returnArray.Length; i++)
+			for (int i = 0; i < input.Length; i++)
 			{
-				returnArray[i] = (byte)(Math.Round(input[i] / 51.0) * 51);
+				output[i] = (byte)(Math.Round(input[i] / 51.0) * 51);
 			}
-			
-			return returnArray;
 		}
 	}
 
