@@ -34,7 +34,7 @@ public abstract class DitheringBase<T>
 	/// <summary>
 	/// Color reduction function/method
 	/// </summary>
-	protected Func<T[],T[]> colorFunction = null;
+	protected ColorFunction colorFunction = null;
 
 	/// <summary>
 	/// Current bitmap
@@ -42,10 +42,17 @@ public abstract class DitheringBase<T>
 	private IImageFormat<T> currentBitmap;
 
 	/// <summary>
+	/// Color function for color reduction
+	/// </summary>
+	/// <param name="inputColors">Input colors</param>
+	/// <param name="outputColors">Output colors</param>
+	public delegate void ColorFunction(in T[] inputColors, ref T[] outputColors);
+
+	/// <summary>
 	/// Base constructor
 	/// </summary>
 	/// <param name="colorfunc">Color reduction function/method</param>
-	public DitheringBase(Func<T[],T[]> colorfunc)
+	public DitheringBase(ColorFunction colorfunc)
 	{
 		this.colorFunction = colorfunc;
 	}
@@ -59,10 +66,11 @@ public abstract class DitheringBase<T>
 	{
 		this.width = input.GetWidth();
 		this.height = input.GetHeight();
+		int channelsPerPixel = input.GetChannelsPerPixel();
 		this.currentBitmap = input;
 
-		T[] originalPixel = new T[input.GetChannelsPerPixel()];
-		T[] newPixel = null; // Default value isn't used
+		T[] originalPixel = new T[channelsPerPixel];
+		T[] newPixel =new T[channelsPerPixel]; // Default value isn't used
 		double[] quantError = null; // Default values aren't used
 
 		for (int y = 0; y < this.height; y++)
@@ -70,7 +78,7 @@ public abstract class DitheringBase<T>
 			for (int x = 0; x < this.width; x++)
 			{
 				input.GetPixelChannels(x, y, ref originalPixel);
-				newPixel = this.colorFunction(originalPixel);
+				this.colorFunction(in originalPixel, ref newPixel);
 
 				input.SetPixelChannels(x, y, newPixel);
 

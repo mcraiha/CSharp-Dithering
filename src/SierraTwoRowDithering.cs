@@ -14,7 +14,7 @@ public class SierraTwoRowDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Sierra two row dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraTwoRowDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public SierraTwoRowDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "SierraTwoRow";
 		this.fileNameAddition = "_SIE2R";

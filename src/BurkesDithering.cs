@@ -14,7 +14,7 @@ public class BurkesDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Burkes dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public BurkesDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public BurkesDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Burkes";
 		this.fileNameAddition = "_BUR";

@@ -15,7 +15,7 @@ public class SierraDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Sierra dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public SierraDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Sierra";
 		this.fileNameAddition = "_SIE";

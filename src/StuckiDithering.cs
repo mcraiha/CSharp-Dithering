@@ -15,7 +15,7 @@ public class StuckiDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Stucki dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public StuckiDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public StuckiDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Stucki";
 		this.fileNameAddition = "_STU";

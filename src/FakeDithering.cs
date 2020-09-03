@@ -15,7 +15,7 @@ public class FakeDitheringRGBByte : DitheringBase<byte>
 	/// </summary>
 	/// <param name="colorfunc"></param>
 	/// <returns></returns>
-	public FakeDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public FakeDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "No dithering";
 		this.fileNameAddition = "_NONE";

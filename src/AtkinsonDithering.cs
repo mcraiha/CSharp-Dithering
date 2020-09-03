@@ -14,7 +14,7 @@ public class AtkinsonDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Atkinson dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public AtkinsonDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public AtkinsonDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
 	{
 		this.methodLongName = "Atkinson";
 		this.fileNameAddition = "_ATK";

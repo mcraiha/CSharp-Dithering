@@ -14,7 +14,7 @@ public class FloydSteinbergDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Floyd-Steinberg dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public FloydSteinbergDitheringRGBByte(Func<byte[],byte[]> colorfunc) : base(colorfunc)
+	public FloydSteinbergDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
     {
         this.methodLongName = "Floyd-Steinberg";
         this.fileNameAddition = "_FS";
