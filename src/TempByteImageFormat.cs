@@ -112,9 +112,10 @@ public class TempByteImageFormat : IImageFormat<byte>
 	{
 		if (this.content1d != null)
 		{
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
 			for (int i = 0; i < this.channelsPerPixel; i++)
 			{
-				this.content1d[y * width + x + i] = newValues[i];
+				this.content1d[indexBase + i] = newValues[i];
 			}
 		}
 		else
@@ -138,9 +139,10 @@ public class TempByteImageFormat : IImageFormat<byte>
 
 		if (this.content1d != null)
 		{
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
 			for (int i = 0; i < this.channelsPerPixel; i++)
 			{
-				returnArray[i] = this.content1d[y * width + x + i];
+				returnArray[i] = this.content1d[indexBase + i];
 			}
 		}
 		else
@@ -164,9 +166,10 @@ public class TempByteImageFormat : IImageFormat<byte>
 	{
 		if (this.content1d != null)
 		{
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
 			for (int i = 0; i < this.channelsPerPixel; i++)
 			{
-				pixelStorage[i] = this.content1d[y * width + x + i];
+				pixelStorage[i] = this.content1d[indexBase + i];
 			}
 		}
 		else
