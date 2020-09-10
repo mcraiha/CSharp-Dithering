@@ -63,11 +63,10 @@ public interface IImageFormat<T>
 	void GetQuantErrorsPerChannel(in T[] originalPixel, in T[] newPixel, ref double[] errorValues);
 
 	/// <summary>
-	/// Create new values from old values and quantization errors
+	/// Modify existing values with quantization errors
 	/// </summary>
-	/// <param name="oldValues">Old values</param>
+	/// <param name="modifyValues">Values to modify</param>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
-	/// <returns>New values</returns>
-	T[] CreatePixelFromChannelsAndQuantError(T[] oldValues, double[] quantErrors, double multiplier);
+	void ModifyPixelChannelsWithQuantError(ref T[] modifyValues, double[] quantErrors, double multiplier);
 }

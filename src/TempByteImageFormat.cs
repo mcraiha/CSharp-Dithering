@@ -232,21 +232,17 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 	}
 
 	/// <summary>
-	/// Create new values from old values and quantization errors
+	/// Modify existing values with quantization errors
 	/// </summary>
-	/// <param name="oldValues">Old values</param>
+	/// <param name="modifyValues">Values to modify</param>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
-	/// <returns>New values</returns>
-	public byte[] CreatePixelFromChannelsAndQuantError(byte[] oldValues, double[] quantErrors, double multiplier)
+	public void ModifyPixelChannelsWithQuantError(ref byte[] modifyValues, double[] quantErrors, double multiplier)
 	{
-		byte[] returnValue = new byte[oldValues.Length];
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			returnValue[i] = GetLimitedValue((byte)oldValues[i], quantErrors[i] * multiplier);
+			modifyValues[i] = GetLimitedValue((byte)modifyValues[i], quantErrors[i] * multiplier);
 		}
-		
-		return returnValue;
 	}
 
 	private static byte GetLimitedValue(byte original, double error)

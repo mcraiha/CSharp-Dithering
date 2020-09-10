@@ -149,21 +149,17 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
-	/// Create new values from old values and quantization errors
+	/// Modify existing values with quantization errors
 	/// </summary>
-	/// <param name="oldValues">Old values</param>
+	/// <param name="modifyValues">Values to modify</param>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
-	/// <returns>New values</returns>
-	public double[] CreatePixelFromChannelsAndQuantError(double[] oldValues, double[] quantErrors, double multiplier)
+	public void ModifyPixelChannelsWithQuantError(ref double[] modifyValues, double[] quantErrors, double multiplier)
 	{
-		double[] returnValue = new double[oldValues.Length];
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			returnValue[i] = GetLimitedValue((byte)oldValues[i], quantErrors[i] * multiplier);
+			modifyValues[i] = GetLimitedValue((byte)modifyValues[i], quantErrors[i] * multiplier);
 		}
-		
-		return returnValue;
 	}
 
 	private static double GetLimitedValue(byte original, double error)

@@ -71,6 +71,7 @@ public abstract class DitheringBase<T>
 
 		T[] originalPixel = new T[channelsPerPixel];
 		T[] newPixel = new T[channelsPerPixel];
+		this.tempBuffer = new T[channelsPerPixel];
 		double[] quantError = new double[channelsPerPixel];
 
 		for (int y = 0; y < this.height; y++)
@@ -128,6 +129,8 @@ public abstract class DitheringBase<T>
 	/// <param name="quantError">Quantization error</param>
 	protected abstract void PushError(int x, int y, double[] quantError);
 
+	private T[] tempBuffer = null;
+
 	/// <summary>
 	/// Modify image with error and multiplier
 	/// </summary>
@@ -137,11 +140,11 @@ public abstract class DitheringBase<T>
 	/// <param name="multiplier">Multiplier</param>
 	public void ModifyImageWithErrorAndMultiplier(int x, int y, double[] quantError, double multiplier)
 	{
-		T[] oldColor = this.currentBitmap.GetPixelChannels(x, y);
+		this.currentBitmap.GetPixelChannels(x, y, ref this.tempBuffer);
 
 		// We limit the color here because we don't want the value go over min or max
-		T[] newColor = this.currentBitmap.CreatePixelFromChannelsAndQuantError(oldColor, quantError, multiplier);
+		this.currentBitmap.ModifyPixelChannelsWithQuantError(ref this.tempBuffer, quantError, multiplier);
 
-		this.currentBitmap.SetPixelChannels(x, y, newColor);
+		this.currentBitmap.SetPixelChannels(x, y, this.tempBuffer);
 	}
 }
