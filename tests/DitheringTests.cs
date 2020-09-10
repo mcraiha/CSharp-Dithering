@@ -205,6 +205,7 @@ namespace tests
 				dithering.DoDithering(temp);
 
 				WriteToBitmap(image, temp.GetPixelChannels);
+				//image.Save("temp123.png");
 
 				return (GetImageTotalPixelSum(image),  CountTotalColors(image));
 			}
