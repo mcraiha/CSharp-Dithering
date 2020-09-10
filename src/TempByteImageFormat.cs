@@ -1,9 +1,9 @@
 using System;
 
 /// <summary>
-/// Temp byte based image format. 0 is zero color, 255 is max color
+/// Temp byte based image format. 0 is zero color, 255 is max color. Channels per color can be defined
 /// </summary>
-public class TempByteImageFormat : IImageFormat<byte>
+public sealed class TempByteImageFormat : IImageFormat<byte>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -28,9 +28,18 @@ public class TempByteImageFormat : IImageFormat<byte>
 	/// Constructor for temp byte image format
 	/// </summary>
 	/// <param name="input">Input bitmap as three dimensional (widht, height, channels per pixel) byte array</param>
-	public TempByteImageFormat(byte[,,] input)
+	/// <param name="createCopy">True if you want to create copy of data</param>
+	public TempByteImageFormat(byte[,,] input, bool createCopy = false)
 	{
-		this.content3d = input;
+		if (createCopy)
+		{
+			this.content3d = (byte[,,])input.Clone();
+		}
+		else
+		{
+			this.content3d = input;
+		}
+		
 		this.content1d = null;
 		this.width = input.GetLength(0);
 		this.height = input.GetLength(1);
@@ -44,10 +53,19 @@ public class TempByteImageFormat : IImageFormat<byte>
 	/// <param name="imageWidth">Width</param>
 	/// <param name="imageHeight">Height</param>
 	/// <param name="imageChannelsPerPixel">Image channels per pixel</param>
-	public TempByteImageFormat(byte[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel)
+	/// <param name="createCopy">True if you want to create copy of data</param>
+	public TempByteImageFormat(byte[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel, bool createCopy = false)
 	{
 		this.content3d = null;
-		this.content1d = input;
+		if (createCopy)
+		{
+			this.content1d = new byte[input.Length];
+			Buffer.BlockCopy(input, 0, this.content1d, 0, input.Length);
+		}
+		else
+		{
+			this.content1d = input;
+		}
 		this.width = imageWidth;
 		this.height = imageHeight;
 		this.channelsPerPixel = imageChannelsPerPixel;

@@ -80,6 +80,27 @@ namespace tests
 			}
 		}
 
+		[Test, Description("Test that 1d copy works")]
+		public void CheckThat1dCopyWorks()
+		{
+			// Arrange
+			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
+
+			// Act
+			var image = new Bitmap(pngStream);
+			byte[] bytes1d = ReadTo1DBytes(image);
+			TempByteImageFormat test1d_1 = new TempByteImageFormat(bytes1d, image.Width, image.Height, 3, createCopy: false);
+			TempByteImageFormat test1d_2 = new TempByteImageFormat(bytes1d, image.Width, image.Height, 3, createCopy: true);
+			bytes1d[0] = 0;
+
+			byte[] firstPixel1 = test1d_1.GetPixelChannels(0, 0);
+			byte[] firstPixel2 = test1d_2.GetPixelChannels(0, 0);
+
+			// Assert
+			Assert.AreEqual(0, firstPixel1[0]);
+			Assert.AreNotEqual(0, firstPixel2[0]);
+		}
+
 		private static byte[,,] ReadTo3DBytes(Bitmap bitmap)
 		{
 			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
