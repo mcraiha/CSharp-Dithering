@@ -60,7 +60,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 		if (createCopy)
 		{
 			this.content1d = new double[input.Length];
-			Buffer.BlockCopy(input, 0, this.content1d, 0, input.Length);
+			Buffer.BlockCopy(input, 0, this.content1d, 0, input.Length * sizeof(double));
 		}
 		else
 		{
