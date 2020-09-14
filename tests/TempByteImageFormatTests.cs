@@ -101,6 +101,22 @@ namespace tests
 			Assert.AreNotEqual(0, firstPixel2[0]);
 		}
 
+		[Test, Description("Test that raw content works")]
+		public void CheckThatRawContentWorks()
+		{
+			// Arrange
+			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
+
+			// Act
+			var image = new Bitmap(pngStream);
+			byte[] bytes1d = ReadTo1DBytes(image);
+			TempByteImageFormat test1d_1 = new TempByteImageFormat(bytes1d, image.Width, image.Height, 3, createCopy: true);
+
+			// Assert
+			Assert.Greater(bytes1d.Length, 1000, "There should be some bytes in image data");
+			CollectionAssert.AreEqual(bytes1d, test1d_1.GetRawContent());
+		}
+
 		private static byte[,,] ReadTo3DBytes(Bitmap bitmap)
 		{
 			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];

@@ -121,6 +121,36 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 	}
 
 	/// <summary>
+	/// Get raw content as byte array
+	/// </summary>
+	/// <returns>Byte array</returns>
+	public byte[] GetRawContent()
+	{
+		if (this.content1d != null)
+		{
+			return this.content1d;
+		}
+		else
+		{
+			byte[] returnArray = new byte[this.width * this.height * this.channelsPerPixel];
+			int currentIndex = 0;
+			for (int y = 0; y < this.height; y++)
+			{
+				for (int x = 0; x < this.width; x++)
+				{
+					for (int i = 0; i < this.channelsPerPixel; i++)
+					{
+						returnArray[currentIndex] = this.content3d[x, y, i];
+						currentIndex++;
+					}
+				}
+			}
+
+			return returnArray;
+		}
+	}
+
+	/// <summary>
 	/// Set pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>

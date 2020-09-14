@@ -23,6 +23,12 @@ public interface IImageFormat<T>
 	int GetChannelsPerPixel();
 
 	/// <summary>
+	/// Get raw content as array
+	/// </summary>
+	/// <returns>Array</returns>
+	T[] GetRawContent();
+
+	/// <summary>
 	/// Set pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>
