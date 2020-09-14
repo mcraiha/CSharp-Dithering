@@ -3,7 +3,7 @@ using System;
 /// <summary>
 /// Temp double based image format. 0.0 is zero color, 1.0 is max color
 /// </summary>
-public class TempDoubleImageFormat : IImageFormat<double>
+public sealed class TempDoubleImageFormat : IImageFormat<double>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -15,7 +15,9 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	/// </summary>
 	public readonly int height;
 
-	private readonly double[,,] content;
+	private readonly double[,,] content3d;
+
+	private readonly double[] content1d;
 
 	/// <summary>
 	/// How many color channels per pixel
@@ -26,9 +28,19 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	/// Constructor for temp double image format
 	/// </summary>
 	/// <param name="input">Input bitmap as three dimensional (widht, height, channels per pixel) double array</param>
-	public TempDoubleImageFormat(double[,,] input)
+	/// <param name="createCopy">True if you want to create copy of data</param>
+	public TempDoubleImageFormat(double[,,] input, bool createCopy = false)
 	{
-		this.content = input;
+		if (createCopy)
+		{
+			this.content3d = (double[,,])input.Clone();
+		}
+		else
+		{
+			this.content3d = input;
+		}
+		
+		this.content1d = null;
 		this.width = input.GetLength(0);
 		this.height = input.GetLength(1);
 		this.channelsPerPixel = input.GetLength(2);
@@ -37,10 +49,48 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	/// <summary>
 	/// Constructor for temp double image format
 	/// </summary>
-	/// <param name="input">Existing TempDoubleImageFormat</param>
-	public TempDoubleImageFormat(TempDoubleImageFormat input) : this(input.content)
+	/// <param name="input">Input double array</param>
+	/// <param name="imageWidth">Width</param>
+	/// <param name="imageHeight">Height</param>
+	/// <param name="imageChannelsPerPixel">Image channels per pixel</param>
+	/// <param name="createCopy">True if you want to create copy of data</param>
+	public TempDoubleImageFormat(double[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel, bool createCopy = false)
 	{
+		this.content3d = null;
+		if (createCopy)
+		{
+			this.content1d = new double[input.Length];
+			Buffer.BlockCopy(input, 0, this.content1d, 0, input.Length);
+		}
+		else
+		{
+			this.content1d = input;
+		}
+		this.width = imageWidth;
+		this.height = imageHeight;
+		this.channelsPerPixel = imageChannelsPerPixel;
+	}
 
+	/// <summary>
+	/// Constructor for temp double image format
+	/// </summary>
+	/// <param name="input">Existing TempDoubleImageFormat</param>
+	public TempDoubleImageFormat(TempDoubleImageFormat input)
+	{
+		if (input.content1d != null)
+		{
+			this.content1d = input.content1d;
+			this.content3d = null;
+		}
+		else
+		{
+			this.content3d = input.content3d;
+			this.content1d = null;
+		}
+
+		this.width = input.width;
+		this.height = input.height;
+		this.channelsPerPixel = input.channelsPerPixel;
 	}
 
 	/// <summary>
@@ -71,6 +121,36 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
+	/// Get raw content as double array
+	/// </summary>
+	/// <returns>Double array</returns>
+	public double[] GetRawContent()
+	{
+		if (this.content1d != null)
+		{
+			return this.content1d;
+		}
+		else
+		{
+			double[] returnArray = new double[this.width * this.height * this.channelsPerPixel];
+			int currentIndex = 0;
+			for (int y = 0; y < this.height; y++)
+			{
+				for (int x = 0; x < this.width; x++)
+				{
+					for (int i = 0; i < this.channelsPerPixel; i++)
+					{
+						returnArray[currentIndex] = this.content3d[x, y, i];
+						currentIndex++;
+					}
+				}
+			}
+
+			return returnArray;
+		}
+	}
+
+	/// <summary>
 	/// Set pixel channels of certain coordinate
 	/// </summary>
 	/// <param name="x">X coordinate</param>
@@ -78,9 +158,20 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="newValues">New values as double array</param>
 	public void SetPixelChannels(int x, int y, double[] newValues)
 	{
-		for (int i = 0; i < this.channelsPerPixel; i++)
+		if (this.content1d != null)
 		{
-			this.content[x, y, i] = (double)newValues[i];
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				this.content1d[indexBase + i] = newValues[i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				this.content3d[x, y, i] = newValues[i];
+			}
 		}
 	}
 
@@ -94,9 +185,20 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	{
 		double[] returnArray = new double[this.channelsPerPixel];
 
-		for (int i = 0; i < this.channelsPerPixel; i++)
+		if (this.content1d != null)
 		{
-			returnArray[i] = this.content[x, y, i];
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				returnArray[i] = this.content1d[indexBase + i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				returnArray[i] = this.content3d[x, y, i];
+			}
 		}
 
 		return returnArray;
@@ -110,9 +212,20 @@ public class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="pixelStorage">Array where pixel channels values will be written</param>
 	public void GetPixelChannels(int x, int y, ref double[] pixelStorage)
 	{
-		for (int i = 0; i < this.channelsPerPixel; i++)
+		if (this.content1d != null)
 		{
-			pixelStorage[i] = this.content[x, y, i];
+			int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				pixelStorage[i] = this.content1d[indexBase + i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				pixelStorage[i] = this.content3d[x, y, i];
+			}
 		}
 	}
 
