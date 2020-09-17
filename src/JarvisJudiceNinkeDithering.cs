@@ -14,10 +14,9 @@ public sealed class JarvisJudiceNinkeDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Jarvis-Judice-Ninke dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public JarvisJudiceNinkeDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
+	public JarvisJudiceNinkeDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Jarvis-Judice-Ninke", "_JJN")
 	{
-		this.methodLongName = "Jarvis-Judice-Ninke";
-		this.fileNameAddition = "_JJN";
+
 	}
 
 	/// <summary>

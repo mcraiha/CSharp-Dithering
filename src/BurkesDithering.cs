@@ -14,10 +14,9 @@ public sealed class BurkesDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Burkes dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public BurkesDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
+	public BurkesDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Burkes", "_BUR")
 	{
-		this.methodLongName = "Burkes";
-		this.fileNameAddition = "_BUR";
+
 	}
 
 	/// <summary>

@@ -24,12 +24,12 @@ public abstract class DitheringBase<T>
 	/// <summary>
 	/// Long name of the dither method
 	/// </summary>
-	protected string methodLongName = "";
+	private readonly string methodLongName = "";
 
 	/// <summary>
 	/// Filename addition
 	/// </summary>
-	protected string fileNameAddition = "";
+	private readonly string fileNameAddition = "";
 
 	/// <summary>
 	/// Color reduction function/method
@@ -52,9 +52,13 @@ public abstract class DitheringBase<T>
 	/// Base constructor
 	/// </summary>
 	/// <param name="colorfunc">Color reduction function/method</param>
-	public DitheringBase(ColorFunction colorfunc)
+	/// <param name="longName">Long name of dither method</param>
+	/// <param name="fileNameAdd">Filename addition</param>
+	public DitheringBase(ColorFunction colorfunc, string longName, string fileNameAdd)
 	{
 		this.colorFunction = colorfunc;
+		this.methodLongName = longName;
+		this.fileNameAddition = fileNameAdd;
 	}
 
 	/// <summary>

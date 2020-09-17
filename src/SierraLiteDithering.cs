@@ -14,10 +14,9 @@ public sealed class SierraLiteDitheringRGBByte : DitheringBase<byte>
 	/// Constructor for Sierra lite dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraLiteDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc)
+	public SierraLiteDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "SierraLite", "_SIEL")
 	{
-		this.methodLongName = "SierraLite";
-		this.fileNameAddition = "_SIEL";
+
 	}
 
 	/// <summary>
