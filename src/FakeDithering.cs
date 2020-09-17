@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Fake dithering doesn't do any dithering. It only does color reduction
 /// </summary>
-public class FakeDitheringRGBByte : DitheringBase<byte>
+public sealed class FakeDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for fake dithering (no dither, just color reduction)

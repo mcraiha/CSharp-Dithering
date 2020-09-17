@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Burkes dithering for RGB bytes
 /// </summary>
-public class BurkesDitheringRGBByte : DitheringBase<byte>
+public sealed class BurkesDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Burkes dithering

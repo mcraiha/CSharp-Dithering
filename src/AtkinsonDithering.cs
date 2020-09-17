@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Atkinson dithering for RGB bytes
 /// </summary>
-public class AtkinsonDitheringRGBByte : DitheringBase<byte>
+public sealed class AtkinsonDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Atkinson dithering

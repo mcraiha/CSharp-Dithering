@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Floyd-Steinberg dithering for RGB bytes
 /// </summary>
-public class FloydSteinbergDitheringRGBByte : DitheringBase<byte>
+public sealed class FloydSteinbergDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Floyd-Steinberg dithering

@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Sierra two row dithering for RGB bytes
 /// </summary>
-public class SierraTwoRowDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraTwoRowDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Sierra two row dithering

@@ -9,7 +9,7 @@ using System;
 /// <summary>
 /// Stucki dithering for RGB bytes
 /// </summary>
-public class StuckiDitheringRGBByte : DitheringBase<byte>
+public sealed class StuckiDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Stucki dithering

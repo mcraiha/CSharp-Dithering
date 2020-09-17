@@ -9,7 +9,7 @@ using System;
 /// <summary>
 /// Sierra dithering for RGB bytes
 /// </summary>
-public class SierraDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Sierra dithering

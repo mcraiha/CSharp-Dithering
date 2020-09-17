@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Jarvis-Judice-Ninke dithering for RGB bytes
 /// </summary>
-public class JarvisJudiceNinkeDitheringRGBByte : DitheringBase<byte>
+public sealed class JarvisJudiceNinkeDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Jarvis-Judice-Ninke dithering

@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Sierra lite dithering for RGB bytes
 /// </summary>
-public class SierraLiteDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraLiteDitheringRGBByte : DitheringBase<byte>
 {
 	/// <summary>
 	/// Constructor for Sierra lite dithering
