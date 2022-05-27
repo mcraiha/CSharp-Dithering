@@ -15,7 +15,7 @@ CSharp (C#) versions of certain dithering algorithms. This project is .NET Stand
 This project contains implementations of different dithering algorithms (C#). They can be used with any graphics/image API.
 
 ## Introduction to dithering
-As Wikipedia says *"Dither is an intentionally applied form of noise used to randomize quantization error, preventing large-scale patterns such as color banding in images."*
+As [Wikipedia](https://en.wikipedia.org/wiki/Dither) says *"Dither is an intentionally applied form of noise used to randomize quantization error, preventing large-scale patterns such as color banding in images."*
 
 In this case dithering is used help in color reduction (less banding). This reduction of colors + dithering combo can be used e.g. to reduce file sizes, make artsy images and avoid issues when displaying images on displays that have limited color range.
 
