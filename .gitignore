@@ -45,3 +45,6 @@ Temporary Items
 # Build results
 [Bb]in/
 [Oo]bj/
+
+# NuGet Packages
+*.nupkg
