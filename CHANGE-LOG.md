@@ -1,3 +1,6 @@
+## Version 1.0.0 (released 2022-05-29)
+- Deterministic build (**FEATURE**)
+
 ## Version 0.9.3 (released 2020-09-17)
 - Better TempDoubleImageFormat (**IMPROVEMENT**)
 - Add Get Raw Content (**FEATURE**)
