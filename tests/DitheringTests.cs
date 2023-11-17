@@ -1,7 +1,5 @@
 using NUnit.Framework;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+using BigGustave;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -21,14 +19,13 @@ namespace tests
 			// Arrange
 			AtkinsonDitheringRGBByte atkinson = new AtkinsonDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long atkinsonImageChecksum, int atkinsonImageColorCount) = DoDitheringAndGetChecksumAndColorCount(atkinson, new Bitmap(image));
+			(long atkinsonImageChecksum, int atkinsonImageColorCount) = DoDitheringAndGetChecksumAndColorCount(atkinson, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, atkinsonImageChecksum);
@@ -41,14 +38,13 @@ namespace tests
 			// Arrange
 			BurkesDitheringRGBByte burkes = new BurkesDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long burkesImageChecksum, int burkesImageColorCount) = DoDitheringAndGetChecksumAndColorCount(burkes, new Bitmap(image));
+			(long burkesImageChecksum, int burkesImageColorCount) = DoDitheringAndGetChecksumAndColorCount(burkes, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, burkesImageChecksum);
@@ -61,14 +57,13 @@ namespace tests
 			// Arrange
 			FloydSteinbergDitheringRGBByte floydSteinberg = new FloydSteinbergDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long floydSteinbergImageChecksum, int floydSteinbergColorCount) = DoDitheringAndGetChecksumAndColorCount(floydSteinberg, new Bitmap(image));
+			(long floydSteinbergImageChecksum, int floydSteinbergColorCount) = DoDitheringAndGetChecksumAndColorCount(floydSteinberg, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, floydSteinbergImageChecksum);
@@ -81,14 +76,13 @@ namespace tests
 			// Arrange
 			JarvisJudiceNinkeDitheringRGBByte jarvisJudiceNinke = new JarvisJudiceNinkeDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long jarvisJudiceNinkeImageChecksum, int jarvisJudiceNinkeColorCount) = DoDitheringAndGetChecksumAndColorCount(jarvisJudiceNinke, new Bitmap(image));
+			(long jarvisJudiceNinkeImageChecksum, int jarvisJudiceNinkeColorCount) = DoDitheringAndGetChecksumAndColorCount(jarvisJudiceNinke, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, jarvisJudiceNinkeImageChecksum);
@@ -101,14 +95,13 @@ namespace tests
 			// Arrange
 			SierraDitheringRGBByte sierra = new SierraDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraImageChecksum, int sierraColorCount) = DoDitheringAndGetChecksumAndColorCount(sierra, new Bitmap(image));
+			(long sierraImageChecksum, int sierraColorCount) = DoDitheringAndGetChecksumAndColorCount(sierra, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraImageChecksum);
@@ -121,14 +114,13 @@ namespace tests
 			// Arrange
 			SierraLiteDitheringRGBByte sierraLite = new SierraLiteDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraLiteImageChecksum, int sierraLiteColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraLite, new Bitmap(image));
+			(long sierraLiteImageChecksum, int sierraLiteColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraLite, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraLiteImageChecksum);
@@ -141,14 +133,13 @@ namespace tests
 			// Arrange
 			SierraTwoRowDitheringRGBByte sierraTwoRow = new SierraTwoRowDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraTwoRowImageChecksum, int sierraTwoRowColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraTwoRow, new Bitmap(image));
+			(long sierraTwoRowImageChecksum, int sierraTwoRowColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraTwoRow, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraTwoRowImageChecksum);
@@ -161,14 +152,13 @@ namespace tests
 			// Arrange
 			StuckiDitheringRGBByte stucki = new StuckiDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long stuckiImageChecksum, int stuckiColorCount) = DoDitheringAndGetChecksumAndColorCount(stucki, new Bitmap(image));
+			(long stuckiImageChecksum, int stuckiColorCount) = DoDitheringAndGetChecksumAndColorCount(stucki, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, stuckiImageChecksum);
@@ -181,34 +171,36 @@ namespace tests
 			// Arrange
 			FakeDitheringRGBByte fake = new FakeDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
 
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long fakeImageChecksum, int fakeImageColorCount) = DoDitheringAndGetChecksumAndColorCount(fake, new Bitmap(image));
+			(long fakeImageChecksum, int fakeImageColorCount) = DoDitheringAndGetChecksumAndColorCount(fake, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, fakeImageChecksum);
 			Assert.Greater(originalImageColorCount, 10 * fakeImageColorCount);
 		}
 
-		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCount(DitheringBase<byte> dithering, Bitmap bitmap)
+		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCount(DitheringBase<byte> dithering, Png image)
 		{
-			using(var image = bitmap)
-			{
-				byte[,,] bytes = ReadTo3DBytes(image);
+			byte[,,] bytes = ReadTo3DBytes(image);
 
-				TempByteImageFormat temp = new TempByteImageFormat(bytes);
-				dithering.DoDithering(temp);
+			TempByteImageFormat temp = new TempByteImageFormat(bytes);
+			dithering.DoDithering(temp);
 
-				WriteToBitmap(image, temp.GetPixelChannels);
-				//image.Save("temp123.png");
+			PngBuilder pngBuilder = PngBuilder.Create(image.Width, image.Height, hasAlphaChannel: false);
+			WriteToBitmap(pngBuilder, image.Width, image.Height, temp.GetPixelChannels);
+			var memoryStream = new MemoryStream();
+			pngBuilder.Save(memoryStream);
+			memoryStream.Position = 0;
+			Png ditheredImage = Png.Open(memoryStream);
 
-				return (GetImageTotalPixelSum(image),  CountTotalColors(image));
-			}
+			//image.Save("temp123.png");
+
+			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
 		}
 
 		private static void TrueColorBytesToWebSafeColorBytes(in byte[] input, ref byte[] output)
@@ -219,56 +211,56 @@ namespace tests
 			}
 		}
 
-		private static byte[,,] ReadTo3DBytes(Bitmap bitmap)
+		private static byte[,,] ReadTo3DBytes(Png image)
 		{
-			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
-			for (int x = 0; x < bitmap.Width; x++)
+			byte[,,] returnValue = new byte[image.Width, image.Height, 3];
+			for (int x = 0; x < image.Width; x++)
 			{
-				for (int y = 0; y < bitmap.Height; y++)
+				for (int y = 0; y < image.Height; y++)
 				{
-					Color color = bitmap.GetPixel(x, y);
-					returnValue[x, y, 0] = color.R;
-					returnValue[x, y, 1] = color.G;
-					returnValue[x, y, 2] = color.B;
+					Pixel pixel = image.GetPixel(x, y);
+					returnValue[x, y, 0] = pixel.R;
+					returnValue[x, y, 1] = pixel.G;
+					returnValue[x, y, 2] = pixel.B;
 				}
 			}
 			return returnValue;
 		}
 
-		private static void WriteToBitmap(Bitmap bitmap, byte[,,] bytes)
+		private static void WriteToBitmap(PngBuilder builder, int width, int height, byte[,,] bytes)
 		{
-			for (int x = 0; x < bitmap.Width; x++)
+			for (int x = 0; x < width; x++)
 			{
-				for (int y = 0; y < bitmap.Height; y++)
+				for (int y = 0; y < height; y++)
 				{
-					Color color = Color.FromArgb(bytes[x, y, 0], bytes[x, y, 1], bytes[x, y, 2]);
-					bitmap.SetPixel(x, y, color);
+					Pixel pixel = new Pixel(bytes[x, y, 0], bytes[x, y, 1], bytes[x, y, 2]);
+					builder.SetPixel(pixel, x, y);
 				}
 			}
 		}
 
-		private static void WriteToBitmap(Bitmap bitmap, Func<int, int, byte[]> reader)
+		private static void WriteToBitmap(PngBuilder builder, int width, int height, Func<int, int, byte[]> reader)
 		{
-			for (int x = 0; x < bitmap.Width; x++)
+			for (int x = 0; x < width; x++)
 			{
-				for (int y = 0; y < bitmap.Height; y++)
+				for (int y = 0; y < height; y++)
 				{
 					byte[] read = reader(x, y);
-					Color color = Color.FromArgb(read[0], read[1], read[2]);
-					bitmap.SetPixel(x, y, color);
+					Pixel pixel = new Pixel(read[0], read[1], read[2]);
+					builder.SetPixel(pixel, x, y);
 				}
 			}
 		}
 
-		private static long GetImageTotalPixelSum(Bitmap bitmap)
+		private static long GetImageTotalPixelSum(Png image)
 		{
 			long totalSum = 0;
 
-			for (int i = 0; i < bitmap.Width; i++)
+			for (int i = 0; i < image.Width; i++)
 			{
-				for (int j = 0; j < bitmap.Height; j++)
+				for (int j = 0; j < image.Height; j++)
 				{
-					Color pixel = bitmap.GetPixel(i,j);
+					Pixel pixel = image.GetPixel(i,j);
 					totalSum += (pixel.R + pixel.G + pixel.B);
 				}
 			}
@@ -276,15 +268,15 @@ namespace tests
 			return totalSum;
 		}
 
-		private static int CountTotalColors(Bitmap bitmap)
+		private static int CountTotalColors(Png image)
 		{
 			HashSet<int> unique = new HashSet<int>();
 
-			for (int i = 0; i < bitmap.Width; i++)
+			for (int i = 0; i < image.Width; i++)
 			{
-				for (int j = 0; j < bitmap.Height; j++)
+				for (int j = 0; j < image.Height; j++)
 				{
-					Color pixel = bitmap.GetPixel(i,j);
+					Pixel pixel = image.GetPixel(i,j);
 					unique.Add(pixel.GetHashCode());
 				}
 			}

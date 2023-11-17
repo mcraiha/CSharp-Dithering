@@ -1,7 +1,5 @@
 using NUnit.Framework;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+using BigGustave;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -22,8 +20,9 @@ namespace tests
 			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
 
 			// Act
-			var image = new Bitmap(pngStream);
-			Color firstColor = image.GetPixel(0, 0);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
+			Pixel firstColor = image.GetPixel(0, 0);
 			
 			TempDoubleImageFormat test = new TempDoubleImageFormat(ReadTo3DDoubles(image));
 			double[] firstPixel = test.GetPixelChannels(0, 0);
@@ -38,11 +37,11 @@ namespace tests
 		public void LoadTest1d()
 		{
 			// Arrange
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
 
 			// Act
-			var image = new Bitmap(pngStream);
-			Color firstColor = image.GetPixel(0, 0);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
+			Pixel firstColor = image.GetPixel(0, 0);
 			
 			TempDoubleImageFormat test = new TempDoubleImageFormat(ReadTo1DDoubles(image), image.Width, image.Height, 3);
 			double[] firstPixel = test.GetPixelChannels(0, 0);
@@ -57,12 +56,12 @@ namespace tests
 		public void IndexingTest()
 		{
 			// Arrange
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
-
 			int[] indexes = new int[] { 0, 1, 12, 37, 56, 132, 200 };
 
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
+			Pixel firstColor = image.GetPixel(0, 0);
 
 			TempDoubleImageFormat test3d = new TempDoubleImageFormat(ReadTo3DDoubles(image));
 			TempDoubleImageFormat test1d = new TempDoubleImageFormat(ReadTo1DDoubles(image), image.Width, image.Height, 3);
@@ -84,10 +83,11 @@ namespace tests
 		public void CheckThat1dCopyWorks()
 		{
 			// Arrange
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
 
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
+
 			double[] doubles1d = ReadTo1DDoubles(image);
 			TempDoubleImageFormat test1d_1 = new TempDoubleImageFormat(doubles1d, image.Width, image.Height, 3, createCopy: false);
 			TempDoubleImageFormat test1d_2 = new TempDoubleImageFormat(doubles1d, image.Width, image.Height, 3, createCopy: true);
@@ -105,10 +105,10 @@ namespace tests
 		public void CheckThatRawContentWorks()
 		{
 			// Arrange
-			FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read);
 
 			// Act
-			var image = new Bitmap(pngStream);
+			var stream = File.OpenRead("half.png");
+			Png image = Png.Open(stream);
 			double[] doubles1d = ReadTo1DDoubles(image);
 			TempDoubleImageFormat test1d_1 = new TempDoubleImageFormat(doubles1d, image.Width, image.Height, 3, createCopy: true);
 
@@ -118,14 +118,14 @@ namespace tests
 		}
 
 		private static readonly double byteMax = byte.MaxValue / 1.0;
-		private static double[,,] ReadTo3DDoubles(Bitmap bitmap)
+		private static double[,,] ReadTo3DDoubles(Png image)
 		{
-			double[,,] returnValue = new double[bitmap.Width, bitmap.Height, 3];
-			for (int x = 0; x < bitmap.Width; x++)
+			double[,,] returnValue = new double[image.Width, image.Height, 3];
+			for (int x = 0; x < image.Width; x++)
 			{
-				for (int y = 0; y < bitmap.Height; y++)
+				for (int y = 0; y < image.Height; y++)
 				{
-					Color color = bitmap.GetPixel(x, y);
+					Pixel color = image.GetPixel(x, y);
 					returnValue[x, y, 0] = color.R / byteMax;
 					returnValue[x, y, 1] = color.G / byteMax;
 					returnValue[x, y, 2] = color.B / byteMax;
@@ -134,17 +134,17 @@ namespace tests
 			return returnValue;
 		}
 
-		private static double[] ReadTo1DDoubles(Bitmap bitmap)
+		private static double[] ReadTo1DDoubles(Png image)
 		{
-			int width = bitmap.Width;
-			int height = bitmap.Height;
+			int width = image.Width;
+			int height = image.Height;
 			int channelsPerPixel = 3;
 			double[] returnValue = new double[width * height * 3];
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					Color color = bitmap.GetPixel(x, y);
+					Pixel color = image.GetPixel(x, y);
 					int arrayIndex = y * width * channelsPerPixel + x * channelsPerPixel;
 					returnValue[arrayIndex + 0] = color.R / byteMax;
 					returnValue[arrayIndex + 1] = color.G / byteMax;
