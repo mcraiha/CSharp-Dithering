@@ -1,3 +1,7 @@
+## Version 1.0.1 (released 2023-11-17)
+- Update to .NET 8 (**FEATURE**)
+- Trimmable support (**FEATURE**)
+
 ## Version 1.0.0 (released 2022-05-29)
 - Deterministic build (**FEATURE**)
 
