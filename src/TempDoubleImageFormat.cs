@@ -27,7 +27,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <summary>
 	/// Constructor for temp double image format
 	/// </summary>
-	/// <param name="input">Input bitmap as three dimensional (widht, height, channels per pixel) double array</param>
+	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) double array</param>
 	/// <param name="createCopy">True if you want to create copy of data</param>
 	public TempDoubleImageFormat(double[,,] input, bool createCopy = false)
 	{

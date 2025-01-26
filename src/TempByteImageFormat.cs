@@ -27,7 +27,7 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 	/// <summary>
 	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Input bitmap as three dimensional (widht, height, channels per pixel) byte array</param>
+	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) byte array</param>
 	/// <param name="createCopy">True if you want to create copy of data</param>
 	public TempByteImageFormat(byte[,,] input, bool createCopy = false)
 	{
