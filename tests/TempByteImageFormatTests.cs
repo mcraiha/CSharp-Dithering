@@ -116,6 +116,40 @@ namespace tests
 			CollectionAssert.AreEqual(bytes1d, test1d_1.GetRawContent());
 		}
 
+		[Test, Description("Test that GetQuantErrorsPerChannel for one channel works")]
+		public void CheckThatGetQuantErrorsPerChannelForOneChannelWorks()
+		{
+			// Arrange
+			byte[] imageBytes1d = new byte[1] { 0 };
+			byte[] modifiedBytes = new byte[1] { 1 };
+			double[] expected = new double[] { -1 };
+
+			TempByteImageFormat test1d = new TempByteImageFormat(imageBytes1d, 1, 1, 1);
+
+			// Act
+			double[] actual = test1d.GetQuantErrorsPerChannel(imageBytes1d, modifiedBytes);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, actual);
+		}
+
+		[Test, Description("Test that GetQuantErrorsPerChannel for three channels works")]
+		public void CheckThatGetQuantErrorsPerChannelForThreeChannelsWorks()
+		{
+			// Arrange
+			byte[] imageBytes1d = new byte[3] { 0, 127, 255 };
+			byte[] modifiedBytes = new byte[3] { 0, 128, 254 };
+			double[] expected = new double[] { 0, -1, 1 };
+
+			TempByteImageFormat test1d = new TempByteImageFormat(imageBytes1d, 1, 1, 3);
+
+			// Act
+			double[] actual = test1d.GetQuantErrorsPerChannel(imageBytes1d, modifiedBytes);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, actual);
+		}
+
 		private static byte[,,] ReadTo3DBytes(Png bitmap)
 		{
 			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
