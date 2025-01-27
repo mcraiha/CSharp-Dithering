@@ -266,11 +266,11 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	{
 		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			modifyValues[i] = GetLimitedValue((byte)modifyValues[i], quantErrors[i] * multiplier);
+			modifyValues[i] = GetLimitedValue(modifyValues[i], quantErrors[i] * multiplier);
 		}
 	}
 
-	private static double GetLimitedValue(byte original, double error)
+	private static double GetLimitedValue(double original, double error)
 	{
 		double newValue = original + error;
 		return Clamp(newValue, 0.0, 1.0);
