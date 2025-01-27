@@ -234,30 +234,25 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 	/// </summary>
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
-	/// <returns>Error values as object array</returns>
-	public double[] GetQuantErrorsPerChannel(byte[] originalPixel, byte[] newPixel)
-	{
-		double[] returnValue = new double[this.channelsPerPixel];
-
-		for (int i = 0; i < this.channelsPerPixel; i++)
-		{
-			returnValue[i] = originalPixel[i] - newPixel[i];
-		}
-
-		return returnValue;
-	}
-
-	/// <summary>
-	/// Get quantization errors per channel
-	/// </summary>
-	/// <param name="originalPixel">Original pixels</param>
-	/// <param name="newPixel">New pixels</param>
 	/// <param name="errorValues">Error values as double array</param>
 	public void GetQuantErrorsPerChannel(in byte[] originalPixel, in byte[] newPixel, ref double[] errorValues)
 	{
-		for (int i = 0; i < this.channelsPerPixel; i++)
+		if (this.channelsPerPixel == 1)
 		{
-			errorValues[i] = originalPixel[i] - newPixel[i];
+			errorValues[0] = originalPixel[0] - newPixel[0];
+		}
+		else if (this.channelsPerPixel == 3)
+		{
+			errorValues[0] = originalPixel[0] - newPixel[0];
+			errorValues[1] = originalPixel[1] - newPixel[1];
+			errorValues[2] = originalPixel[2] - newPixel[2];
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				errorValues[i] = originalPixel[i] - newPixel[i];
+			}
 		}
 	}
 

@@ -124,10 +124,11 @@ namespace tests
 			double[] imageBytes = new double[1] { 0 };
 			double[] modifiedBytes = new double[1] { 1 };
 			double[] expected = new double[] { -1 };
+			double[] actual = new double[1];
 			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageBytes, 1, 1, 1);
 
 			// Act
-			double[] actual = test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes);
+			test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes, ref actual);
 
 			// Assert
 			CollectionAssert.AreEqual(expected, actual);
@@ -141,10 +142,11 @@ namespace tests
 			double[] imageBytes = new double[3] { 0, 127, 255 };
 			double[] modifiedBytes = new double[3] { 0, 128, 254 };
 			double[] expected = new double[] { 0, -1, 1 };
+			double[] actual = new double[3];
 			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageBytes, 1, 1, 3);
 
 			// Act
-			double[] actual = test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes);
+			test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes, ref actual);
 
 			// Assert
 			CollectionAssert.AreEqual(expected, actual);

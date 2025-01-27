@@ -57,14 +57,6 @@ public interface IImageFormat<T>
 	/// </summary>
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
-	/// <returns>Error values as double array</returns>
-	double[] GetQuantErrorsPerChannel(T[] originalPixel, T[] newPixel);
-
-	/// <summary>
-	/// Get quantization errors per channel
-	/// </summary>
-	/// <param name="originalPixel">Original pixels</param>
-	/// <param name="newPixel">New pixels</param>
 	/// <param name="errorValues">Error values as double array</param>
 	void GetQuantErrorsPerChannel(in T[] originalPixel, in T[] newPixel, ref double[] errorValues);
 
