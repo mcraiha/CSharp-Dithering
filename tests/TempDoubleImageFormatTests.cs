@@ -118,17 +118,17 @@ namespace tests
 		}
 
 		[Test, Description("Test that GetQuantErrorsPerChannel for one channel works")]
-		public void CheckThatGetQuantErrorsPerChannelForThreeChannelWorks()
+		public void CheckThatGetQuantErrorsPerChannelForOneChannelWorks()
 		{
 			// Arrange
-			double[] imageBytes = new double[1] { 0 };
+			double[] imageDoubles = new double[1] { 0 };
 			double[] modifiedBytes = new double[1] { 1 };
 			double[] expected = new double[] { -1 };
 			double[] actual = new double[1];
-			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageBytes, 1, 1, 1);
+			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageDoubles, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 1);
 
 			// Act
-			test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes, ref actual);
+			test1d.GetQuantErrorsPerChannel(imageDoubles, modifiedBytes, ref actual);
 
 			// Assert
 			CollectionAssert.AreEqual(expected, actual);
@@ -139,17 +139,51 @@ namespace tests
 		public void CheckThatGetQuantErrorsPerChannelForThreeChannelsWorks()
 		{
 			// Arrange
-			double[] imageBytes = new double[3] { 0, 127, 255 };
+			double[] imageDoubles = new double[3] { 0, 127, 255 };
 			double[] modifiedBytes = new double[3] { 0, 128, 254 };
 			double[] expected = new double[] { 0, -1, 1 };
 			double[] actual = new double[3];
-			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageBytes, 1, 1, 3);
+			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageDoubles, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 3);
 
 			// Act
-			test1d.GetQuantErrorsPerChannel(imageBytes, modifiedBytes, ref actual);
+			test1d.GetQuantErrorsPerChannel(imageDoubles, modifiedBytes, ref actual);
 
 			// Assert
 			CollectionAssert.AreEqual(expected, actual);
+		}
+
+		[Test, Description("Test that ModifyPixelChannelsWithQuantError for one channel works")]
+		public void CheckThatModifyPixelChannelsWithQuantErrorForOneChannelWorks()
+		{
+			// Arrange
+			double[] imageDoubles = new double[1] { 1 };
+			double[] quantErrors = new double[1] { -0.25 };
+			double[] expected = new double[1] { 0.75 };
+			double multiplier = 1.0;
+			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageDoubles, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 1);
+
+			// Act
+			test1d.ModifyPixelChannelsWithQuantError(ref imageDoubles, quantErrors, multiplier);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, imageDoubles);
+		}
+
+		[Test, Description("Test that ModifyPixelChannelsWithQuantError for three channels works")]
+		public void CheckThatModifyPixelChannelsWithQuantErrorForThreeChannelsWorks()
+		{
+			// Arrange
+			double[] imageDoubles = new double[3] { 1, 0, 0.25 };
+			double[] quantErrors = new double[3] { -0.25, 0, 0.25 };
+			double[] expected = new double[3] { 0.25, 0, 1.0 };
+			double multiplier = 3.0;
+			TempDoubleImageFormat test1d = new TempDoubleImageFormat(imageDoubles, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 3);
+
+			// Act
+			test1d.ModifyPixelChannelsWithQuantError(ref imageDoubles, quantErrors, multiplier);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, imageDoubles);
 		}
 
 		private static readonly double byteMax = byte.MaxValue / 1.0;

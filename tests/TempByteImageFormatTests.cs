@@ -152,6 +152,40 @@ namespace tests
 			CollectionAssert.AreEqual(expected, actual);
 		}
 
+		[Test, Description("Test that ModifyPixelChannelsWithQuantError for one channel works")]
+		public void CheckThatModifyPixelChannelsWithQuantErrorForOneChannelWorks()
+		{
+			// Arrange
+			byte[] imageBytes1d = new byte[1] { 0 };
+			double[] quantErrors = new double[1] { 1 };
+			byte[] expected = new byte[1] { 1 };
+			double multiplier = 1.0;
+			TempByteImageFormat test1d = new TempByteImageFormat(imageBytes1d, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 1);
+
+			// Act
+			test1d.ModifyPixelChannelsWithQuantError(ref imageBytes1d, quantErrors, multiplier);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, imageBytes1d);
+		}
+
+		[Test, Description("Test that ModifyPixelChannelsWithQuantError for three channels works")]
+		public void CheckThatModifyPixelChannelsWithQuantErrorForThreeChannelsWorks()
+		{
+			// Arrange
+			byte[] imageBytes3d = new byte[3] { 30, 127, 200 };
+			double[] quantErrors = new double[3] { -10, 0, 20 };
+			byte[] expected = new byte[3] { 10, 127, 240 };
+			double multiplier = 2.0;
+			TempByteImageFormat test1d = new TempByteImageFormat(imageBytes3d, imageWidth: 1, imageHeight: 1, imageChannelsPerPixel: 3);
+
+			// Act
+			test1d.ModifyPixelChannelsWithQuantError(ref imageBytes3d, quantErrors, multiplier);
+
+			// Assert
+			CollectionAssert.AreEqual(expected, imageBytes3d);
+		}
+
 		private static byte[,,] ReadTo3DBytes(Png bitmap)
 		{
 			byte[,,] returnValue = new byte[bitmap.Width, bitmap.Height, 3];
