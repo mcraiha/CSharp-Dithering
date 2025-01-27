@@ -237,9 +237,22 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="errorValues">Error values as double array</param>
 	public void GetQuantErrorsPerChannel(in double[] originalPixel, in double[] newPixel, ref double[] errorValues)
 	{
-		for (int i = 0; i < this.channelsPerPixel; i++)
+		if (this.channelsPerPixel == 1)
 		{
-			errorValues[i] = originalPixel[i] - newPixel[i];
+			errorValues[0] = originalPixel[0] - newPixel[0];
+		}
+		else if (this.channelsPerPixel == 3)
+		{
+			errorValues[0] = originalPixel[0] - newPixel[0];
+			errorValues[1] = originalPixel[1] - newPixel[1];
+			errorValues[2] = originalPixel[2] - newPixel[2];
+		}
+		else
+		{
+			for (int i = 0; i < this.channelsPerPixel; i++)
+			{
+				errorValues[i] = originalPixel[i] - newPixel[i];
+			}
 		}
 	}
 
