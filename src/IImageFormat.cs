@@ -1,8 +1,9 @@
+using System.Numerics;
 
 /// <summary>
 /// Interface for our custom image formats
 /// </summary>
-public interface IImageFormat<T>
+public interface IImageFormat<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Get width

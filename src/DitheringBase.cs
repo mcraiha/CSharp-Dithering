@@ -5,11 +5,12 @@
 */
 
 using System;
+using System.Numerics;
 
 /// <summary>
 /// Abstract base class for dithering implementations
 /// </summary>
-public abstract class DitheringBase<T>
+public abstract class DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Width of bitmap
