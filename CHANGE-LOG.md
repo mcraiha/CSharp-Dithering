@@ -1,3 +1,7 @@
+## Version 1.1.0 (released XYZ)
+- Removed .NET Standard 2.0 support (**BREAKING**)
+- Use generic math to limit supported formats (**BREAKING**)
+
 ## Version 1.0.1 (released 2023-11-17)
 - Update to .NET 8 (**FEATURE**)
 - Trimmable support (**FEATURE**)
