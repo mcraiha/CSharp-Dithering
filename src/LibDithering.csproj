@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <PackageId>LibDithering</PackageId>
     <VersionPrefix>1.0.1</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Kaarlo Räihä</Authors>
-    <Description>.Net (Standard 2.0 and .NET 8) compatible managed dithering library implementation in C#</Description>
+    <Description>.Net (.NET 8) compatible managed dithering library implementation in C#</Description>
     <IncludeSource>true</IncludeSource>
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-Dithering</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-Dithering.git</RepositoryUrl>
