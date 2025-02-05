@@ -4,17 +4,18 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Atkinson dithering for RGB bytes
+/// Atkinson dithering for RGB
 /// </summary>
-public sealed class AtkinsonDitheringRGBByte : DitheringBase<byte>
+public sealed class AtkinsonDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Atkinson dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public AtkinsonDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Atkinson", "_ATK")
+	public AtkinsonDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "Atkinson", "_ATK")
 	{
 
 	}

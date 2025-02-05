@@ -4,17 +4,18 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Jarvis-Judice-Ninke dithering for RGB bytes
+/// Jarvis-Judice-Ninke dithering for RGB
 /// </summary>
-public sealed class JarvisJudiceNinkeDitheringRGBByte : DitheringBase<byte>
+public sealed class JarvisJudiceNinkeDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Jarvis-Judice-Ninke dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public JarvisJudiceNinkeDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Jarvis-Judice-Ninke", "_JJN")
+	public JarvisJudiceNinkeDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "Jarvis-Judice-Ninke", "_JJN")
 	{
 
 	}

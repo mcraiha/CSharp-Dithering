@@ -4,17 +4,18 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Sierra two row dithering for RGB bytes
+/// Sierra two row dithering for RGB
 /// </summary>
-public sealed class SierraTwoRowDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraTwoRowDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Sierra two row dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraTwoRowDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "SierraTwoRow", "_SIE2R")
+	public SierraTwoRowDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "SierraTwoRow", "_SIE2R")
 	{
 
 	}

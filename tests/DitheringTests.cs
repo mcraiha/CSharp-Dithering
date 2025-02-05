@@ -14,10 +14,11 @@ namespace tests
 		}
 
 		[Test, Description("Test that AtkinsonDithering produces modified output")]
-		public void AtkinsonDitheringTest()
+		public void AtkinsonDitheringTests()
 		{
 			// Arrange
-			AtkinsonDitheringRGBByte atkinson = new AtkinsonDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			AtkinsonDitheringRGB<byte> atkinsonBytes = new AtkinsonDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
+			AtkinsonDitheringRGB<double> atkinsonDoubles = new AtkinsonDitheringRGB<double>(TrueColorBytesToWebSafeColorDoubles);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -25,18 +26,22 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long atkinsonImageChecksum, int atkinsonImageColorCount) = DoDitheringAndGetChecksumAndColorCount(atkinson, image);
+			(long atkinsonImageChecksumBytes, int atkinsonImageColorCountBytes) = DoDitheringAndGetChecksumAndColorCountBytes(atkinsonBytes, image);
+			(long atkinsonImageChecksumDoubles, int atkinsonImageColorCountDoubles) = DoDitheringAndGetChecksumAndColorCountDoubles(atkinsonDoubles, image);
 
 			// Assert
-			Assert.AreNotEqual(originalImageChecksum, atkinsonImageChecksum);
-			Assert.Greater(originalImageColorCount, 10 * atkinsonImageColorCount);
+			Assert.AreNotEqual(originalImageChecksum, atkinsonImageChecksumBytes);
+			Assert.AreNotEqual(originalImageChecksum, atkinsonImageChecksumDoubles);
+
+			Assert.Greater(originalImageColorCount, 10 * atkinsonImageColorCountBytes);
+			Assert.Greater(originalImageColorCount, atkinsonImageColorCountDoubles);
 		}
 
 		[Test, Description("Test that BurkesDithering produces modified output")]
-		public void BurkesDitheringTest()
+		public void BurkesDitheringTests()
 		{
 			// Arrange
-			BurkesDitheringRGBByte burkes = new BurkesDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			BurkesDitheringRGB<byte> burkes = new BurkesDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -44,7 +49,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long burkesImageChecksum, int burkesImageColorCount) = DoDitheringAndGetChecksumAndColorCount(burkes, image);
+			(long burkesImageChecksum, int burkesImageColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(burkes, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, burkesImageChecksum);
@@ -52,10 +57,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that FloydSteinbergDithering produces modified output")]
-		public void FloydSteinbergDitheringTest()
+		public void FloydSteinbergDitheringTests()
 		{
 			// Arrange
-			FloydSteinbergDitheringRGBByte floydSteinberg = new FloydSteinbergDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			FloydSteinbergDitheringRGB<byte> floydSteinberg = new FloydSteinbergDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -63,7 +68,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long floydSteinbergImageChecksum, int floydSteinbergColorCount) = DoDitheringAndGetChecksumAndColorCount(floydSteinberg, image);
+			(long floydSteinbergImageChecksum, int floydSteinbergColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(floydSteinberg, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, floydSteinbergImageChecksum);
@@ -71,10 +76,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that JarvisJudiceNinkeDithering produces modified output")]
-		public void JarvisJudiceNinkeDitheringTest()
+		public void JarvisJudiceNinkeDitheringTests()
 		{
 			// Arrange
-			JarvisJudiceNinkeDitheringRGBByte jarvisJudiceNinke = new JarvisJudiceNinkeDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			JarvisJudiceNinkeDitheringRGB<byte> jarvisJudiceNinke = new JarvisJudiceNinkeDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -82,7 +87,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long jarvisJudiceNinkeImageChecksum, int jarvisJudiceNinkeColorCount) = DoDitheringAndGetChecksumAndColorCount(jarvisJudiceNinke, image);
+			(long jarvisJudiceNinkeImageChecksum, int jarvisJudiceNinkeColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(jarvisJudiceNinke, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, jarvisJudiceNinkeImageChecksum);
@@ -90,10 +95,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that SierraDithering produces modified output")]
-		public void SierraDitheringTest()
+		public void SierraDitheringTests()
 		{
 			// Arrange
-			SierraDitheringRGBByte sierra = new SierraDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			SierraDitheringRGB<byte> sierra = new SierraDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -101,7 +106,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraImageChecksum, int sierraColorCount) = DoDitheringAndGetChecksumAndColorCount(sierra, image);
+			(long sierraImageChecksum, int sierraColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(sierra, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraImageChecksum);
@@ -109,10 +114,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that SierraLiteDithering produces modified output")]
-		public void SierraLiteDitheringTest()
+		public void SierraLiteDitheringTests()
 		{
 			// Arrange
-			SierraLiteDitheringRGBByte sierraLite = new SierraLiteDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			SierraLiteDitheringRGB<byte> sierraLite = new SierraLiteDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -120,7 +125,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraLiteImageChecksum, int sierraLiteColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraLite, image);
+			(long sierraLiteImageChecksum, int sierraLiteColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(sierraLite, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraLiteImageChecksum);
@@ -128,10 +133,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that SierraTwoRowDithering produces modified output")]
-		public void SierraTwoRowDitheringTest()
+		public void SierraTwoRowDitheringTests()
 		{
 			// Arrange
-			SierraTwoRowDitheringRGBByte sierraTwoRow = new SierraTwoRowDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			SierraTwoRowDitheringRGB<byte> sierraTwoRow = new SierraTwoRowDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -139,7 +144,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long sierraTwoRowImageChecksum, int sierraTwoRowColorCount) = DoDitheringAndGetChecksumAndColorCount(sierraTwoRow, image);
+			(long sierraTwoRowImageChecksum, int sierraTwoRowColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(sierraTwoRow, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, sierraTwoRowImageChecksum);
@@ -147,10 +152,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that StuckiDithering produces modified output")]
-		public void StuckiDitheringTest()
+		public void StuckiDitheringTests()
 		{
 			// Arrange
-			StuckiDitheringRGBByte stucki = new StuckiDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			StuckiDitheringRGB<byte> stucki = new StuckiDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -158,7 +163,7 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long stuckiImageChecksum, int stuckiColorCount) = DoDitheringAndGetChecksumAndColorCount(stucki, image);
+			(long stuckiImageChecksum, int stuckiColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(stucki, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, stuckiImageChecksum);
@@ -166,10 +171,10 @@ namespace tests
 		}
 
 		[Test, Description("Test that FakeDithering produces modified output because of color func")]
-		public void FakeDitheringTest()
+		public void FakeDitheringTests()
 		{
 			// Arrange
-			FakeDitheringRGBByte fake = new FakeDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+			FakeDitheringRGB<byte> fake = new FakeDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
 			// Act
 			var stream = File.OpenRead("half.png");
@@ -177,18 +182,35 @@ namespace tests
 			long originalImageChecksum = GetImageTotalPixelSum(image);
 			int originalImageColorCount = CountTotalColors(image);
 
-			(long fakeImageChecksum, int fakeImageColorCount) = DoDitheringAndGetChecksumAndColorCount(fake, image);
+			(long fakeImageChecksum, int fakeImageColorCount) = DoDitheringAndGetChecksumAndColorCountBytes(fake, image);
 
 			// Assert
 			Assert.AreNotEqual(originalImageChecksum, fakeImageChecksum);
 			Assert.Greater(originalImageColorCount, 10 * fakeImageColorCount);
 		}
 
-		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCount(DitheringBase<byte> dithering, Png image)
+		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountBytes(DitheringBase<byte> dithering, Png image)
 		{
 			byte[,,] bytes = ReadTo3DBytes(image);
 
 			TempByteImageFormat temp = new TempByteImageFormat(bytes);
+			dithering.DoDithering(temp);
+
+			PngBuilder pngBuilder = PngBuilder.Create(image.Width, image.Height, hasAlphaChannel: false);
+			WriteToBitmap(pngBuilder, image.Width, image.Height, temp.GetPixelChannels);
+			var memoryStream = new MemoryStream();
+			pngBuilder.Save(memoryStream);
+			memoryStream.Position = 0;
+			Png ditheredImage = Png.Open(memoryStream);
+
+			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
+		}
+
+		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountDoubles(DitheringBase<double> dithering, Png image)
+		{
+			double[,,] doubles = ReadTo3DDoubles(image);
+
+			TempDoubleImageFormat temp = new TempDoubleImageFormat(doubles);
 			dithering.DoDithering(temp);
 
 			PngBuilder pngBuilder = PngBuilder.Create(image.Width, image.Height, hasAlphaChannel: false);
@@ -211,6 +233,14 @@ namespace tests
 			}
 		}
 
+		private static void TrueColorBytesToWebSafeColorDoubles(in double[] input, ref double[] output)
+		{
+			for (int i = 0; i < input.Length; i++)
+			{
+				output[i] = (Math.Round(input[i] * 51.0) / 51.0);
+			}
+		}
+
 		private static byte[,,] ReadTo3DBytes(Png image)
 		{
 			byte[,,] returnValue = new byte[image.Width, image.Height, 3];
@@ -222,6 +252,22 @@ namespace tests
 					returnValue[x, y, 0] = pixel.R;
 					returnValue[x, y, 1] = pixel.G;
 					returnValue[x, y, 2] = pixel.B;
+				}
+			}
+			return returnValue;
+		}
+
+		private static double[,,] ReadTo3DDoubles(Png image)
+		{
+			double[,,] returnValue = new double[image.Width, image.Height, 3];
+			for (int x = 0; x < image.Width; x++)
+			{
+				for (int y = 0; y < image.Height; y++)
+				{
+					Pixel pixel = image.GetPixel(x, y);
+					returnValue[x, y, 0] = pixel.R / 255.0;
+					returnValue[x, y, 1] = pixel.G / 255.0;
+					returnValue[x, y, 2] = pixel.B / 255.0;
 				}
 			}
 			return returnValue;
@@ -239,6 +285,18 @@ namespace tests
 			}
 		}
 
+		private static void WriteToBitmap(PngBuilder builder, int width, int height, double[,,] doubles)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					Pixel pixel = new Pixel((byte)(doubles[x, y, 0] * 255.0), (byte)(doubles[x, y, 1] * 255.0), (byte)(doubles[x, y, 2] * 255.0));
+					builder.SetPixel(pixel, x, y);
+				}
+			}
+		}
+
 		private static void WriteToBitmap(PngBuilder builder, int width, int height, Func<int, int, byte[]> reader)
 		{
 			for (int x = 0; x < width; x++)
@@ -247,6 +305,19 @@ namespace tests
 				{
 					byte[] read = reader(x, y);
 					Pixel pixel = new Pixel(read[0], read[1], read[2]);
+					builder.SetPixel(pixel, x, y);
+				}
+			}
+		}
+
+		private static void WriteToBitmap(PngBuilder builder, int width, int height, Func<int, int, double[]> reader)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					double[] read = reader(x, y);
+					Pixel pixel = new Pixel((byte)(read[0] * 255.0), (byte)(read[1] * 255.0), (byte)(read[2] * 255.0));
 					builder.SetPixel(pixel, x, y);
 				}
 			}
@@ -276,7 +347,7 @@ namespace tests
 			{
 				for (int j = 0; j < image.Height; j++)
 				{
-					Pixel pixel = image.GetPixel(i,j);
+					Pixel pixel = image.GetPixel(i, j);
 					unique.Add(pixel.GetHashCode());
 				}
 			}

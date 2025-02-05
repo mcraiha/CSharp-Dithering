@@ -4,17 +4,18 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Burkes dithering for RGB bytes
+/// Burkes dithering for RGB
 /// </summary>
-public sealed class BurkesDitheringRGBByte : DitheringBase<byte>
+public sealed class BurkesDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Burkes dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public BurkesDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Burkes", "_BUR")
+	public BurkesDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "Burkes", "_BUR")
 	{
 
 	}

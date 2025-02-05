@@ -4,18 +4,19 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
 /// Fake dithering doesn't do any dithering. It only does color reduction
 /// </summary>
-public sealed class FakeDitheringRGBByte : DitheringBase<byte>
+public sealed class FakeDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for fake dithering (no dither, just color reduction)
 	/// </summary>
 	/// <param name="colorfunc"></param>
 	/// <returns></returns>
-	public FakeDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "No dithering", "_NONE")
+	public FakeDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "No dithering", "_NONE")
 	{
 		
 	}
@@ -31,4 +32,3 @@ public sealed class FakeDitheringRGBByte : DitheringBase<byte>
 		// Don't do anything
 	}
 }
-

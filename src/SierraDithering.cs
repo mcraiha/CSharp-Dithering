@@ -5,17 +5,18 @@
 */
 
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Sierra dithering for RGB bytes
+/// Sierra dithering for RGB
 /// </summary>
-public sealed class SierraDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Sierra dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Sierra", "_SIE")
+	public SierraDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "Sierra", "_SIE")
 	{
 
 	}

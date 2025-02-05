@@ -4,17 +4,18 @@
    This is free and unencumbered software released into the public domain.
 */
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Sierra lite dithering for RGB bytes
+/// Sierra lite dithering for RGB
 /// </summary>
-public sealed class SierraLiteDitheringRGBByte : DitheringBase<byte>
+public sealed class SierraLiteDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Sierra lite dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public SierraLiteDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "SierraLite", "_SIEL")
+	public SierraLiteDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "SierraLite", "_SIEL")
 	{
 
 	}

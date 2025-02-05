@@ -1,10 +1,10 @@
 using System;
-using System.Runtime.Intrinsics;
+using System.Numerics;
 
 /// <summary>
-/// Temp double based image format. 0.0 is zero color, 1.0 is max color
+/// Temp generic INumber based image format. T.MinValue is zero color, T.MaxValue is max color. Channels per color can be defined
 /// </summary>
-public sealed class TempDoubleImageFormat : IImageFormat<double>
+public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -16,9 +16,9 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// </summary>
 	public readonly int height;
 
-	private readonly double[,,] content3d;
+	private readonly T[,,] content3d;
 
-	private readonly double[] content1d;
+	private readonly T[] content1d;
 
 	/// <summary>
 	/// How many color channels per pixel
@@ -26,15 +26,15 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	public readonly int channelsPerPixel;
 
 	/// <summary>
-	/// Constructor for temp double image format
+	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) double array</param>
+	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) byte array</param>
 	/// <param name="createCopy">True if you want to create copy of data</param>
-	public TempDoubleImageFormat(double[,,] input, bool createCopy = false)
+	public TempImageFormat(T[,,] input, bool createCopy = false)
 	{
 		if (createCopy)
 		{
-			this.content3d = (double[,,])input.Clone();
+			this.content3d = (T[,,])input.Clone();
 		}
 		else
 		{
@@ -48,20 +48,19 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
-	/// Constructor for temp double image format
+	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Input double array</param>
+	/// <param name="input">Input byte array</param>
 	/// <param name="imageWidth">Width</param>
 	/// <param name="imageHeight">Height</param>
 	/// <param name="imageChannelsPerPixel">Image channels per pixel</param>
 	/// <param name="createCopy">True if you want to create copy of data</param>
-	public TempDoubleImageFormat(double[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel, bool createCopy = false)
+	public TempImageFormat(T[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel, bool createCopy = false)
 	{
 		this.content3d = null;
 		if (createCopy)
 		{
-			this.content1d = new double[input.Length];
-			Buffer.BlockCopy(input, 0, this.content1d, 0, input.Length * sizeof(double));
+			this.content1d = (T[])input.Clone();
 		}
 		else
 		{
@@ -73,10 +72,10 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
-	/// Constructor for temp double image format
+	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Existing TempDoubleImageFormat</param>
-	public TempDoubleImageFormat(TempDoubleImageFormat input)
+	/// <param name="input">Existing TempByteImageFormat</param>
+	public TempImageFormat(TempImageFormat<T> input)
 	{
 		if (input.content1d != null)
 		{
@@ -122,10 +121,10 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	}
 
 	/// <summary>
-	/// Get raw content as double array
+	/// Get raw content as byte array
 	/// </summary>
-	/// <returns>Double array</returns>
-	public double[] GetRawContent()
+	/// <returns>Byte array</returns>
+	public T[] GetRawContent()
 	{
 		if (this.content1d != null)
 		{
@@ -133,7 +132,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 		}
 		else
 		{
-			double[] returnArray = new double[this.width * this.height * this.channelsPerPixel];
+			T[] returnArray = new T[this.width * this.height * this.channelsPerPixel];
 			int currentIndex = 0;
 			for (int y = 0; y < this.height; y++)
 			{
@@ -156,8 +155,8 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <param name="newValues">New values as double array</param>
-	public void SetPixelChannels(int x, int y, double[] newValues)
+	/// <param name="newValues">New values as object array</param>
+	public void SetPixelChannels(int x, int y, T[] newValues)
 	{
 		if (this.content1d != null)
 		{
@@ -181,10 +180,10 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <returns>Values as double array</returns>
-	public double[] GetPixelChannels(int x, int y)
+	/// <returns>Values as byte array</returns>
+	public T[] GetPixelChannels(int x, int y)
 	{
-		double[] returnArray = new double[this.channelsPerPixel];
+		T[] returnArray = new T[this.channelsPerPixel];
 
 		if (this.content1d != null)
 		{
@@ -211,7 +210,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
 	/// <param name="pixelStorage">Array where pixel channels values will be written</param>
-	public void GetPixelChannels(int x, int y, ref double[] pixelStorage)
+	public void GetPixelChannels(int x, int y, ref T[] pixelStorage)
 	{
 		if (this.content1d != null)
 		{
@@ -236,24 +235,11 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="originalPixel">Original pixels</param>
 	/// <param name="newPixel">New pixels</param>
 	/// <param name="errorValues">Error values as double array</param>
-	public void GetQuantErrorsPerChannel(in double[] originalPixel, in double[] newPixel, ref double[] errorValues)
+	public void GetQuantErrorsPerChannel(in T[] originalPixel, in T[] newPixel, ref double[] errorValues)
 	{
-		if (this.channelsPerPixel == 1)
+		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			errorValues[0] = originalPixel[0] - newPixel[0];
-		}
-		else if (this.channelsPerPixel == 3)
-		{
-			errorValues[0] = originalPixel[0] - newPixel[0];
-			errorValues[1] = originalPixel[1] - newPixel[1];
-			errorValues[2] = originalPixel[2] - newPixel[2];
-		}
-		else
-		{
-			for (int i = 0; i < this.channelsPerPixel; i++)
-			{
-				errorValues[i] = originalPixel[i] - newPixel[i];
-			}
+			errorValues[i] = double.CreateChecked(originalPixel[i]) - double.CreateChecked(newPixel[i]);
 		}
 	}
 
@@ -263,60 +249,17 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="modifyValues">Values to modify</param>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
-	#if NET9_0
-	public void ModifyPixelChannelsWithQuantError(ref double[] modifyValues, double[] quantErrors, double multiplier)
+	public void ModifyPixelChannelsWithQuantError(ref T[] modifyValues, double[] quantErrors, double multiplier)
 	{
-		if (this.channelsPerPixel == 1)
+		for (int i = 0; i < this.channelsPerPixel; i++)
 		{
-			modifyValues[0] = GetLimitedValue(modifyValues[0], quantErrors[0] * multiplier);
-		}
-		else if (this.channelsPerPixel == 3)
-		{
-			Span<double> temp = stackalloc double[4];
-
-			Vector256<double> originals = Vector256.Create(modifyValues[0], modifyValues[1], modifyValues[2], 0);
-			Vector256<double> errors = Vector256.Create(quantErrors[0], quantErrors[1], quantErrors[2], 0);
-			errors *= multiplier;
-			originals += errors;
-
-			Vector256.Clamp(originals, Vector256<double>.Zero, Vector256<double>.One);
-			Vector256.CopyTo(originals, temp);
-			temp.Slice(0, 3).CopyTo(modifyValues);
-		}
-		else
-		{
-			for (int i = 0; i < this.channelsPerPixel; i++)
-			{
-				modifyValues[i] = GetLimitedValue(modifyValues[i], quantErrors[i] * multiplier);
-			}
+			double newValue = double.CreateChecked(modifyValues[i]) + quantErrors[i] * multiplier;
+			double clamped = Math.Clamp(newValue, clampMin, clampMax);
+			modifyValues[i] = T.CreateChecked(clamped);
 		}
 	}
-	#else
-	public void ModifyPixelChannelsWithQuantError(ref double[] modifyValues, double[] quantErrors, double multiplier)
-	{
-		if (this.channelsPerPixel == 1)
-		{
-			modifyValues[0] = GetLimitedValue(modifyValues[0], quantErrors[0] * multiplier);
-		}
-		else if (this.channelsPerPixel == 3)
-		{
-			modifyValues[0] = GetLimitedValue(modifyValues[0], quantErrors[0] * multiplier);
-			modifyValues[1] = GetLimitedValue(modifyValues[1], quantErrors[1] * multiplier);
-			modifyValues[2] = GetLimitedValue(modifyValues[2], quantErrors[2] * multiplier);
-		}
-		else
-		{
-			for (int i = 0; i < this.channelsPerPixel; i++)
-			{
-				modifyValues[i] = GetLimitedValue(modifyValues[i], quantErrors[i] * multiplier);
-			}
-		}
-	}
-	#endif // NET9_0
 
-	private static double GetLimitedValue(double original, double error)
-	{
-		double newValue = original + error;
-		return Math.Clamp(newValue, 0.0, 1.0);
-	}
+	private readonly double clampMin = double.CreateChecked(T.MinValue);
+	private readonly double clampMax = double.CreateChecked(T.MaxValue);
+
 }

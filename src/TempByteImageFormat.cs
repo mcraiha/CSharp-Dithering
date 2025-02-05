@@ -270,15 +270,12 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 		}
 	}
 
+	private const double clampMin = (double)byte.MinValue;
+	private const double clampMax = (double)byte.MaxValue;
+
 	private static byte GetLimitedValue(byte original, double error)
 	{
 		double newValue = original + error;
-		return Clamp(newValue, byte.MinValue, byte.MaxValue);
-	}
-
-	// C# doesn't have a Clamp method so we need this
-	private static byte Clamp(double value, double min, double max)
-	{
-		return (value < min) ? (byte)min : (value > max) ? (byte)max : (byte)value;
+		return (byte)Math.Clamp(newValue, clampMin, clampMax);
 	}
 }

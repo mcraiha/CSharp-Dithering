@@ -5,17 +5,18 @@
 */
 
 using System;
+using System.Numerics;
 
 /// <summary>
-/// Stucki dithering for RGB bytes
+/// Stucki dithering for RGB
 /// </summary>
-public sealed class StuckiDitheringRGBByte : DitheringBase<byte>
+public sealed class StuckiDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
 {
 	/// <summary>
 	/// Constructor for Stucki dithering
 	/// </summary>
 	/// <param name="colorfunc">Color function</param>
-	public StuckiDitheringRGBByte(ColorFunction colorfunc) : base(colorfunc, "Stucki", "_STU")
+	public StuckiDitheringRGB(ColorFunction colorfunc) : base(colorfunc, "Stucki", "_STU")
 	{
 
 	}
