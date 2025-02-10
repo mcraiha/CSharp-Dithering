@@ -4,11 +4,12 @@ CSharp (C#) versions of certain dithering algorithms. This project is .NET 8 com
 
 ## Examples
 
-Use Atkinson dithering with web safe color reduction for 24 bit PNG input with System.Drawing
+Use Atkinson dithering with web safe color reduction for 24 bit PNG input with System.Drawing (this example is Windows only)
+
 ```cs
 public void DoAtkinsonDithering()
 {
-    AtkinsonDitheringRGBByte atkinson = new AtkinsonDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+    AtkinsonDitheringRGB<byte> atkinson = new AtkinsonDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
     using(FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read))
     using(var image = new Bitmap(pngStream))

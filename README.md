@@ -31,11 +31,13 @@ Other .cs files are used for different dithering algorithms, and the files are n
 [Samples folder](https://github.com/mcraiha/CSharp-Dithering/blob/master/samples) contains images that are shown in the end of this Readme file
 
 ## Examples
-Use Atkinson dithering with web safe color reduction for 24 bit PNG input with System.Drawing
+
+Use Atkinson dithering with web safe color reduction for 24 bit PNG input with System.Drawing (this example is Windows only)
+
 ```cs
 public void DoAtkinsonDithering()
 {
-    AtkinsonDitheringRGBByte atkinson = new AtkinsonDitheringRGBByte(TrueColorBytesToWebSafeColorBytes);
+    AtkinsonDitheringRGB<byte> atkinson = new AtkinsonDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
 
     using(FileStream pngStream = new FileStream("half.png", FileMode.Open, FileAccess.Read))
     using(var image = new Bitmap(pngStream))
@@ -89,17 +91,21 @@ private static void WriteToBitmap(Bitmap bitmap, Func<int, int, byte[]> reader)
 }
 ```
 ## Usage
+
 You have to always give color reduction method as parameter for dither constructor. You can dither multiple images with one instance by calling DoDithering again with different input.
 
 ## Wasn't this .NET Framework project?
+
 Yes, but time moves on...
 
 ## License
+
 Text in this document and source code files are released into the public domain. See [PUBLICDOMAIN](https://github.com/mcraiha/CSharp-Dithering/blob/master/PUBLICDOMAIN) file.
 
 Parrot image (half.png) is made from image that comes from [Kodak Lossless True Color Image Suite](http://r0k.us/graphics/kodak/) and it doesn't have any specific license.
 
 ## Samples
+
 I took the famous [parrot image](http://r0k.us/graphics/kodak/kodim23.html) and reduced its size. Then I ran the image (which has 64655 different colors) with all dithering methods and using [Web safe colors](https://en.wikipedia.org/wiki/Web_colors#Web-safe_colors) as palette (216 colors). 
 
 ![Original](https://github.com/mcraiha/CSharp-Dithering/blob/master/Samples/half.png)
