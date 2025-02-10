@@ -1,4 +1,4 @@
-## Version 1.1.0 (released XYZ)
+## Version 1.1.0 (released 2025-02-10)
 - Removed .NET Standard 2.0 support (**BREAKING**)
 - Use generic math to limit supported formats (**BREAKING**)
 
