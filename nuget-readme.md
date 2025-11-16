@@ -1,6 +1,6 @@
 # CSharp-Dithering
 
-CSharp (C#) versions of certain dithering algorithms. This project is .NET 8 compatible, managed and available as Nuget!
+CSharp (C#) versions of certain dithering algorithms. This project is .NET 8 and .NET 10 compatible, managed and available as Nuget!
 
 ## Examples
 
