@@ -263,7 +263,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	/// <param name="modifyValues">Values to modify</param>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
-	#if NET9_0
+	#if NET9_0_OR_GREATER
 	public void ModifyPixelChannelsWithQuantError(ref double[] modifyValues, double[] quantErrors, double multiplier)
 	{
 		if (this.channelsPerPixel == 1)
@@ -312,7 +312,7 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 			}
 		}
 	}
-	#endif // NET9_0
+	#endif // NET9_0_OR_GREATER
 
 	/// <summary>
 	/// Get clamped value
