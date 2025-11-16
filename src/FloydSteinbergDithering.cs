@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Floyd-Steinberg dithering for RGB
 /// </summary>
-public sealed class FloydSteinbergDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
+public sealed class FloydSteinbergDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Floyd-Steinberg dithering

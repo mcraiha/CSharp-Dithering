@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Sierra lite dithering for RGB
 /// </summary>
-public sealed class SierraLiteDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
+public sealed class SierraLiteDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Sierra lite dithering

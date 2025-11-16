@@ -314,6 +314,16 @@ public sealed class TempDoubleImageFormat : IImageFormat<double>
 	}
 	#endif // NET9_0
 
+	/// <summary>
+	/// Get clamped value
+	/// </summary>
+	/// <param name="input">Double value input</param>
+	/// <returns>Clamped value</returns>
+	public double GetClamped(double input)
+	{
+		return Math.Clamp(input, 0.0, 1.0);
+	}
+
 	private static double GetLimitedValue(double original, double error)
 	{
 		double newValue = original + error;

@@ -28,7 +28,7 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 	/// <summary>
 	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) byte array</param>
+	/// <param name="input">Input bitmap as three dimensional (width, height, channels per pixel) array</param>
 	/// <param name="createCopy">True if you want to create copy of data</param>
 	public TempImageFormat(T[,,] input, bool createCopy = false)
 	{
@@ -40,7 +40,7 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 		{
 			this.content3d = input;
 		}
-		
+
 		this.content1d = null;
 		this.width = input.GetLength(0);
 		this.height = input.GetLength(1);
@@ -50,7 +50,7 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 	/// <summary>
 	/// Constructor for temp byte image format
 	/// </summary>
-	/// <param name="input">Input byte array</param>
+	/// <param name="input">Input array</param>
 	/// <param name="imageWidth">Width</param>
 	/// <param name="imageHeight">Height</param>
 	/// <param name="imageChannelsPerPixel">Image channels per pixel</param>
@@ -100,8 +100,8 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 	public int GetWidth()
 	{
 		return this.width;
-	}    
-	
+	}
+
 	/// <summary>
 	/// Get height of bitmap
 	/// </summary>
@@ -121,9 +121,9 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 	}
 
 	/// <summary>
-	/// Get raw content as byte array
+	/// Get raw content as array
 	/// </summary>
-	/// <returns>Byte array</returns>
+	/// <returns>Array</returns>
 	public T[] GetRawContent()
 	{
 		if (this.content1d != null)
@@ -180,7 +180,7 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 	/// </summary>
 	/// <param name="x">X coordinate</param>
 	/// <param name="y">Y coordinate</param>
-	/// <returns>Values as byte array</returns>
+	/// <returns>Values as array</returns>
 	public T[] GetPixelChannels(int x, int y)
 	{
 		T[] returnArray = new T[this.channelsPerPixel];
@@ -259,7 +259,17 @@ public sealed class TempImageFormat<T> : IImageFormat<T> where T : INumber<T>, I
 		}
 	}
 
+	/// <summary>
+	/// Get clamped value
+	/// </summary>
+	/// <param name="input">Double value input</param>
+	/// <returns>Clamped value</returns>
+	public T GetClamped(double input)
+	{
+		double clamped = Math.Clamp(input, clampMin, clampMax);
+		return T.CreateChecked(clamped);
+	}
+
 	private readonly double clampMin = double.CreateChecked(T.MinValue);
 	private readonly double clampMax = double.CreateChecked(T.MaxValue);
-
 }

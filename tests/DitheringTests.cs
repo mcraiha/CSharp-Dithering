@@ -170,6 +170,25 @@ namespace tests
 			Assert.Greater(originalImageColorCount, stuckiColorCountDoubles);
 		}
 
+		[Test, Description("Test that BlueNoiseDithering produces modified output")]
+		public void BlueNoiseDitheringTests()
+		{
+			// Arrange
+			BlueNoiseDitheringRGB<byte> blueNoiseBytes = new BlueNoiseDitheringRGB<byte>(TrueColorBytesToWebSafeColorBytes);
+			BlueNoiseDitheringRGB<double> blueNoiseDoubles = new BlueNoiseDitheringRGB<double>(TrueColorBytesToWebSafeColorDoubles);
+
+			// Act
+			(long blueNoiseImageChecksumBytes, int blueNoiseColorCountBytes) = DoDitheringAndGetChecksumAndColorCountBytes(blueNoiseBytes, image);
+			(long blueNoiseImageChecksumDoubles, int blueNoiseColorCountDoubles) = DoDitheringAndGetChecksumAndColorCountDoubles(blueNoiseDoubles, image);
+
+			// Assert
+			Assert.AreNotEqual(originalImageChecksum, blueNoiseImageChecksumBytes);
+			Assert.AreNotEqual(originalImageChecksum, blueNoiseImageChecksumDoubles);
+
+			Assert.Greater(originalImageColorCount, 10 * blueNoiseColorCountBytes);
+			Assert.Greater(originalImageColorCount, blueNoiseColorCountDoubles);
+		}
+
 		[Test, Description("Test that FakeDithering produces modified output because of color func")]
 		public void FakeDitheringTests()
 		{
@@ -202,6 +221,12 @@ namespace tests
 			pngBuilder.Save(memoryStream);
 			memoryStream.Position = 0;
 			Png ditheredImage = Png.Open(memoryStream);
+
+			/*using (FileStream fs = File.Create("temp123.png"))
+			{
+				var builder = PngBuilder.FromPng(ditheredImage);
+				builder.Save(fs);
+			}*/
 
 			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
 		}

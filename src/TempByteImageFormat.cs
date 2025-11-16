@@ -56,6 +56,11 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 	/// <param name="createCopy">True if you want to create copy of data</param>
 	public TempByteImageFormat(byte[] input, int imageWidth, int imageHeight, int imageChannelsPerPixel, bool createCopy = false)
 	{
+		if (input.Length < imageWidth * imageHeight * imageChannelsPerPixel)
+		{
+			throw new ArgumentException($"Not enough bytes, {input.Length} vs. {imageWidth * imageHeight * imageChannelsPerPixel}");
+		}
+
 		this.content3d = null;
 		if (createCopy)
 		{
@@ -270,6 +275,16 @@ public sealed class TempByteImageFormat : IImageFormat<byte>
 		}
 	}
 
+	/// <summary>
+	/// Get clamped value
+	/// </summary>
+	/// <param name="input">Double value input</param>
+	/// <returns>Clamped value</returns>
+	public byte GetClamped(double input)
+	{
+		return (byte)Math.Clamp(input, clampMin, clampMax);
+	}
+	
 	private const double clampMin = (double)byte.MinValue;
 	private const double clampMax = (double)byte.MaxValue;
 

@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Atkinson dithering for RGB
 /// </summary>
-public sealed class AtkinsonDitheringRGB<T> : DitheringBase<T> where T : INumber<T>
+public sealed class AtkinsonDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Atkinson dithering

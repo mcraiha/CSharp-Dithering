@@ -68,4 +68,11 @@ public interface IImageFormat<T> where T : INumber<T>
 	/// <param name="quantErrors">Quantization errors</param>
 	/// <param name="multiplier">Multiplier</param>
 	void ModifyPixelChannelsWithQuantError(ref T[] modifyValues, double[] quantErrors, double multiplier);
+
+	/// <summary>
+	/// Get clamped value
+	/// </summary>
+	/// <param name="input">Double value input</param>
+	/// <returns>Clamped value</returns>
+	T GetClamped(double input);
 }
