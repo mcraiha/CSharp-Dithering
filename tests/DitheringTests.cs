@@ -208,7 +208,7 @@ namespace tests
 			Assert.Greater(originalImageColorCount, fakeImageColorCountDoubles);
 		}
 
-		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountBytes(DitheringBase<byte> dithering, Png image)
+		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountBytes(IDitherCommon<byte> dithering, Png image)
 		{
 			byte[,,] bytes = ReadTo3DBytes(image);
 
@@ -231,7 +231,7 @@ namespace tests
 			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
 		}
 
-		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountDoubles(DitheringBase<double> dithering, Png image)
+		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountDoubles(IDitherCommon<double> dithering, Png image)
 		{
 			double[,,] doubles = ReadTo3DDoubles(image);
 

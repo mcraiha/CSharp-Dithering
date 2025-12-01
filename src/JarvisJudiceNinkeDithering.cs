@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Jarvis-Judice-Ninke dithering for RGB
 /// </summary>
-public sealed class JarvisJudiceNinkeDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed class JarvisJudiceNinkeDitheringRGB<T> : DitheringErrorPushBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Jarvis-Judice-Ninke dithering

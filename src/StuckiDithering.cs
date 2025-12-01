@@ -10,7 +10,7 @@ using System.Numerics;
 /// <summary>
 /// Stucki dithering for RGB
 /// </summary>
-public sealed class StuckiDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed class StuckiDitheringRGB<T> : DitheringErrorPushBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Stucki dithering

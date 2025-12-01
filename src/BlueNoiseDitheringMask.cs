@@ -3,7 +3,7 @@ using System.Numerics;
 /// <summary>
 /// Blue noise dithering mask
 /// </summary>
-public sealed  partial class BlueNoiseDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed  partial class BlueNoiseDitheringRGB<T> : DitheringNoiseBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
     private static readonly byte[] byteMask = new byte[]
     {

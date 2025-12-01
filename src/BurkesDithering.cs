@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Burkes dithering for RGB
 /// </summary>
-public sealed class BurkesDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed class BurkesDitheringRGB<T> : DitheringErrorPushBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for Burkes dithering

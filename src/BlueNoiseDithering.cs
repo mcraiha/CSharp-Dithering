@@ -8,7 +8,7 @@ using System.Numerics;
 /// <summary>
 /// Blue noise dithering.
 /// </summary>
-public sealed  partial class BlueNoiseDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed partial class BlueNoiseDitheringRGB<T> : DitheringNoiseBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for blue noise dithering (no dither, just color reduction)
@@ -28,6 +28,6 @@ public sealed  partial class BlueNoiseDitheringRGB<T> : DitheringBase<T> where T
 	/// <param name="quantError">Quantization error</param>
 	override protected void PushError(int x, int y, double[] quantError)
 	{
-		// Don't do anything, becaue mask does all the work
+		// Don't do anything, because mask does all the work
 	}
 }

@@ -9,7 +9,7 @@ using System.Numerics;
 /// <summary>
 /// Fake dithering doesn't do any dithering. It only does color reduction
 /// </summary>
-public sealed class FakeDitheringRGB<T> : DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public sealed class FakeDitheringRGB<T> : DitheringErrorPushBase<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Constructor for fake dithering (no dither, just color reduction)

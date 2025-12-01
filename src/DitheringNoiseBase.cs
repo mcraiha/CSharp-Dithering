@@ -8,25 +8,9 @@ using System;
 using System.Numerics;
 
 /// <summary>
-/// Dither type
+/// Abstract base class for dithering implementations that use error pushing
 /// </summary>
-public enum DitherType
-{
-	/// <summary>
-	/// Push error
-	/// </summary>
-	ErrorPush = 0,
-
-	/// <summary>
-	/// Mask image
-	/// </summary>
-	Mask
-};
-
-/// <summary>
-/// Abstract base class for dithering implementations
-/// </summary>
-public abstract class DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
+public abstract class DitheringNoiseBase<T> : IDitherCommon<T> where T : INumber<T>, IMinMaxValue<T>
 {
 	/// <summary>
 	/// Width of bitmap
@@ -64,7 +48,7 @@ public abstract class DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 	private IImageFormat<T> currentBitmap;
 
 	/// <summary>
-	/// Mask bitmap if dither type is mask
+	/// Mask bitmap
 	/// </summary>
 	private readonly MaskBitmap<T> maskBitmap;
 
@@ -76,27 +60,13 @@ public abstract class DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 	public delegate void ColorFunction(in T[] inputColors, ref T[] outputColors);
 
 	/// <summary>
-	/// Base constructor for error pushing dither
-	/// </summary>
-	/// <param name="colorfunc">Color reduction function/method</param>
-	/// <param name="longName">Long name of dither method</param>
-	/// <param name="fileNameAdd">Filename addition</param>
-	public DitheringBase(ColorFunction colorfunc, string longName, string fileNameAdd)
-	{
-		this.colorFunction = colorfunc;
-		this.ditherType = DitherType.ErrorPush;
-		this.methodLongName = longName;
-		this.fileNameAddition = fileNameAdd;
-	}
-
-	/// <summary>
 	/// Base constructor for mask dither
 	/// </summary>
 	/// <param name="colorfunc">Color reduction function/method</param>
 	/// <param name="mask">Mask image</param>
 	/// <param name="longName">Long name of dither method</param>
 	/// <param name="fileNameAdd">Filename addition</param>
-	public DitheringBase(ColorFunction colorfunc, MaskBitmap<T> mask, string longName, string fileNameAdd)
+	public DitheringNoiseBase(ColorFunction colorfunc, MaskBitmap<T> mask, string longName, string fileNameAdd)
 	{
 		this.colorFunction = colorfunc;
 		this.maskBitmap = mask;
@@ -120,64 +90,41 @@ public abstract class DitheringBase<T> where T : INumber<T>, IMinMaxValue<T>
 		T[] originalPixel = new T[channelsPerPixel];
 		T[] newPixel = new T[channelsPerPixel];
 
-		if (ditherType == DitherType.ErrorPush)
+		T[] maskPixel = new T[channelsPerPixel];
+		int maskWidth = maskBitmap.width;
+		int maskHeight = maskBitmap.height;
+
+		bool isFloatType = (typeof(T) == typeof(double) || typeof(T) == typeof(float));
+		double half = double.CreateChecked(T.MaxValue - T.MinValue);
+
+		for (int y = 0; y < this.height; y++)
 		{
-			this.tempBuffer = new T[channelsPerPixel];
-			double[] quantError = new double[channelsPerPixel];
-		
-			for (int y = 0; y < this.height; y++)
+			for (int x = 0; x < this.width; x++)
 			{
-				for (int x = 0; x < this.width; x++)
+				input.GetPixelChannels(x, y, ref originalPixel);
+
+				maskBitmap.GetPixelChannels(x % maskWidth, y % maskHeight, ref maskPixel);
+
+				for (int i = 0; i < originalPixel.Length; i++)
 				{
-					input.GetPixelChannels(x, y, ref originalPixel);
-					this.colorFunction(in originalPixel, ref newPixel);
-
-					input.SetPixelChannels(x, y, newPixel);
-
-					input.GetQuantErrorsPerChannel(in originalPixel, in newPixel, ref quantError);
-
-					this.PushError(x, y, quantError);
-				}
-			}
-		}
-		else if (ditherType == DitherType.Mask)
-		{
-			T[] maskPixel = new T[channelsPerPixel];
-			int maskWidth = maskBitmap.width;
-			int maskHeight = maskBitmap.height;
-
-			bool isFloatType = (typeof(T) == typeof(double) || typeof(T) == typeof(float));
-			double half = double.CreateChecked(T.MaxValue - T.MinValue);
-
-			for (int y = 0; y < this.height; y++)
-			{
-				for (int x = 0; x < this.width; x++)
-				{
-					input.GetPixelChannels(x, y, ref originalPixel);
-
-					maskBitmap.GetPixelChannels(x % maskWidth, y % maskHeight, ref maskPixel);
-
-					for (int i = 0; i < originalPixel.Length; i++)
+					// Be lazy and only operate with doubles
+					if (isFloatType)
 					{
-						// Be lazy and only operate with doubles
-						if (isFloatType)
-						{
-							// Really hacksy way of doing this
-							double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + double.CreateChecked(maskPixel[i]) - 0.25;
-							originalPixel[i] = input.GetClamped(maskPixelWithAdjustment);
-						}
-						else
-						{
-							// Really hacksy way of doing this
-							double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + double.CreateChecked(maskPixel[i]) - half/2;
-							originalPixel[i] = input.GetClamped(maskPixelWithAdjustment);
-						}
+						// Really hacksy way of doing this
+						double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + double.CreateChecked(maskPixel[i]) - 0.25;
+						originalPixel[i] = input.GetClamped(maskPixelWithAdjustment);
 					}
-
-					this.colorFunction(in originalPixel, ref newPixel);
-
-					input.SetPixelChannels(x, y, newPixel);
+					else
+					{
+						// Really hacksy way of doing this
+						double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + double.CreateChecked(maskPixel[i]) - half/2;
+						originalPixel[i] = input.GetClamped(maskPixelWithAdjustment);
+					}
 				}
+
+				this.colorFunction(in originalPixel, ref newPixel);
+
+				input.SetPixelChannels(x, y, newPixel);
 			}
 		}
 
