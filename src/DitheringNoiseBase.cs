@@ -110,8 +110,7 @@ public abstract class DitheringNoiseBase<T> : IDitherCommon<T> where T : INumber
 					// Be lazy and only operate with doubles
 					if (isFloatType)
 					{
-						// Really hacksy way of doing this
-						double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + double.CreateChecked(maskPixel[i]) - 0.25;
+						double maskPixelWithAdjustment = double.CreateChecked(originalPixel[i]) + (2.0 * double.CreateChecked(maskPixel[i]) - 1.0);
 						originalPixel[i] = input.GetClamped(maskPixelWithAdjustment);
 					}
 					else

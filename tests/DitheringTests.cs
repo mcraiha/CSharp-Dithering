@@ -228,7 +228,7 @@ namespace tests
 				builder.Save(fs);
 			}*/
 
-			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
+			return (GetImageTotalPixelSum(ditheredImage), CountTotalColors(ditheredImage));
 		}
 
 		private static (long checksum, int colorCount) DoDitheringAndGetChecksumAndColorCountDoubles(IDitherCommon<double> dithering, Png image)
@@ -245,9 +245,13 @@ namespace tests
 			memoryStream.Position = 0;
 			Png ditheredImage = Png.Open(memoryStream);
 
-			//image.Save("temp123.png");
+			/*using (FileStream fs = File.Create("temp123.png"))
+			{
+				var builder = PngBuilder.FromPng(ditheredImage);
+				builder.Save(fs);
+			}*/
 
-			return (GetImageTotalPixelSum(ditheredImage),  CountTotalColors(ditheredImage));
+			return (GetImageTotalPixelSum(ditheredImage), CountTotalColors(ditheredImage));
 		}
 
 		private static void TrueColorBytesToWebSafeColorBytes(in byte[] input, ref byte[] output)

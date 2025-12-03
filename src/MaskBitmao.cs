@@ -17,7 +17,7 @@ public sealed class MaskBitmap<T> where T : INumber<T>, IMinMaxValue<T>
 	/// </summary>
 	public readonly int height;
 
-	private readonly byte[] content1d;
+	private readonly T[] content1d;
 
 	/// <summary>
 	/// How many color channels per pixel
@@ -27,19 +27,46 @@ public sealed class MaskBitmap<T> where T : INumber<T>, IMinMaxValue<T>
 	/// <summary>
 	/// Only constructor
 	/// </summary>
-	/// <param name="maskImageBytes">Mask image as bytes</param>
+	/// <param name="maskImageBytes">Mask image as bytes (so range is 0..255)</param>
 	/// <param name="imageWidth">Image width</param>
 	/// <param name="imageHeight">Image height</param>
 	/// <param name="imageChannelsPerPixel">Image channels per pixel</param>
 	/// <exception cref="ArgumentException">If there are not enough mask bytes</exception>
 	public MaskBitmap(byte[] maskImageBytes, int imageWidth, int imageHeight, int imageChannelsPerPixel)
 	{
-		if (maskImageBytes.Length < imageWidth * imageHeight * imageChannelsPerPixel)
+		int sizeOfArray = imageWidth * imageHeight * imageChannelsPerPixel;
+
+		if (maskImageBytes.Length < sizeOfArray)
 		{
-			throw new ArgumentException($"Not enough bytes, {maskImageBytes.Length} vs. {imageWidth * imageHeight * imageChannelsPerPixel}");
+			throw new ArgumentException($"Not enough bytes, {maskImageBytes.Length} vs. {sizeOfArray}");
 		}
 
-		this.content1d = maskImageBytes;
+		
+		this.content1d = new T[sizeOfArray];
+
+		// Do some precalculations to speed up actual calculations
+		if (typeof(T) == typeof(double))
+		{
+			for (int i = 0; i < sizeOfArray; i++)
+			{
+				this.content1d[i] = T.CreateChecked(maskImageBytes[i] / 255.0);
+			}
+		}
+		else if (typeof(T) == typeof(float))
+		{
+			for (int i = 0; i < sizeOfArray; i++)
+			{
+				this.content1d[i] = T.CreateChecked(maskImageBytes[i] / 255.0f);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < sizeOfArray; i++)
+			{
+				this.content1d[i] = T.CreateChecked(maskImageBytes[i]);
+			}
+		}
+
 		this.width = imageWidth;
 		this.height = imageHeight;
 		this.channelsPerPixel = imageChannelsPerPixel;
@@ -59,7 +86,7 @@ public sealed class MaskBitmap<T> where T : INumber<T>, IMinMaxValue<T>
 		int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
 		for (int i = 0; i < howManyChannels; i++)
 		{
-			returnArray[i] = T.CreateChecked(this.content1d[indexBase + i]);
+			returnArray[i] = this.content1d[indexBase + i];
 		}
 
 		return returnArray;
@@ -76,7 +103,7 @@ public sealed class MaskBitmap<T> where T : INumber<T>, IMinMaxValue<T>
 		int indexBase = y * this.width * this.channelsPerPixel + x * this.channelsPerPixel;
 		for (int i = 0; i < pixelStorage.Length; i++)
 		{
-			pixelStorage[i] = T.CreateChecked(this.content1d[indexBase + i]);
+			pixelStorage[i] = this.content1d[indexBase + i];
 		}
 	}
 }
