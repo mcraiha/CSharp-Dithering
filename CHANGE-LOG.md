@@ -1,5 +1,6 @@
-## Version 1.1.1 (not released yet)
+## Version 1.1.1 (released 2025-12-03)
 - Update to .NET 10 (**FEATURE**)
+- Experimental blue noise dithering (**FEATURE**)
 
 ## Version 1.1.0 (released 2025-02-10)
 - Removed .NET Standard 2.0 support (**BREAKING**)
